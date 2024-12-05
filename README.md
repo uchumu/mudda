@@ -1,50 +1,51 @@
-# React + TypeScript + Vite
+# 우리들의 추억을 무따
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+테오의 스프린트 18기 11조
+우리들의 추억을 무따, mudda 프론트엔드 레포지토리입니다.
 
-Currently, two official plugins are available:
+# 스크립트
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 자세한 내용은 `package.json`의 `"scripts"`에서 확인하실 수 있습니다.
 
-## Expanding the ESLint configuration
+|스크립트|설명|
+|---|---|
+|`npm i`|의존성 설치|
+|`npm run dev`|개발 환경 가동|
+|`npm run build`|빌드 산출물 생성. `turbo.json`과 각 앱 디렉토리 내에서 `outputs` 폴더 설정 가능|
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+# 브랜치 명명 규칙
 
-- Configure the top-level `parserOptions` property like this:
+|명명|설명|
+|---|---|
+|`main`|PRD 혹은 stage 배포되는 수준의 브랜치|
+|`dev/<featureName>`|개발 브랜치. `CI pass` 및 `review approve` 이후에 `main`에 `merge` 가능|
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+# 커밋 메시지 규칙
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+- 커밋 메시지 양식
+  - `<type>(<scope>): <subject>`
+  - (`<scope>`는 선택사항입니다.)
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+- Example
+  ```
+  feat: add hat wobble
+  ^--^  ^------------^
+  |     |
+  |     +-> Summary in present tense.
+  |
+  +-------> Type: chore, docs, feat, fix, refactor, style, or test.
+  ```
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+- 커밋 메시지 타입의 종류(임의로 작성 가능합니다.)
+  - `feat`: (new feature for the user, not a new feature for build script)
+  - `fix`: (bug fix for the user, not a fix to a build script)
+  - `docs`: (changes to the documentation)
+  - `style`: (formatting, missing semi colons, etc; no production code change)
+  - `refactor`: (refactoring production code, eg. renaming a variable)
+  - `test`: (adding missing tests, refactoring tests; no production code change)
+  - `chore`: (updating grunt tasks etc; no production code change)
+
+- References:
+  - https://www.conventionalcommits.org/
+  - https://seesparkbox.com/foundry/semantic_commit_messages
+  - http://karma-runner.github.io/1.0/dev/git-commit-msg.html
