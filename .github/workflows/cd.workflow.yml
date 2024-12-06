@@ -79,6 +79,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Create .env file
+        run: |
+          echo VITE_DOMAIN=${{ secrets.VITE_DOMAIN }} >> .env
+          echo VITE_BACKEND_URL=${{ secrets.VITE_BACKEND_URL }} >> .env
+
       - name: node v20.x setup
         uses: actions/setup-node@v4
         with:
