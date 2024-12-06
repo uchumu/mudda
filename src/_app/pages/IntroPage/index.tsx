@@ -3,7 +3,7 @@ import PostList from "./PostList";
 const IntroPage = () => {
   return (
     <>
-      <span>CD 테스트1</span>
+      <span>CD 테스트2</span>
       <PostList />
     </>
   );
