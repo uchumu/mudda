@@ -10,7 +10,7 @@ on:
       - synchronize
 
 jobs:
-  Run_tests:
+  build_before_merge:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
