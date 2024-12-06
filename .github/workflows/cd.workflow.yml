@@ -1,0 +1,112 @@
+name: Deploy Next.js to S3 and invalidate CloudFront
+
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - run: git fetch --tags origin
+
+      - name: "Get Previous tag"
+        id: previoustag
+        uses: "WyriHaximus/github-action-get-previous-tag@v1"
+        with:
+          fallback: v1.0.0
+
+      - name: Determine next version
+        id: next-version
+        run: |
+          latest_tag=${{steps.previoustag.outputs.tag}}
+          echo "Latest tag: $latest_tag"
+
+          if [[ $latest_tag =~ ^v([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
+            major=${BASH_REMATCH[1]}
+            minor=${BASH_REMATCH[2]}
+            patch=${BASH_REMATCH[3]}
+            
+            source_branch="${{ github.event.pull_request.head.ref }}"
+            
+            echo "Source branch: $source_branch"
+            
+            if [[ $source_branch == dev* ]]; then
+              minor=$((minor + 1))
+              patch=0
+            elif [[ $source_branch == hotfix* ]]; then
+              patch=$((patch + 1))
+            else
+              echo "Unknown source branch prefix: $source_branch"
+              exit 1
+            fi
+
+            new_tag="v${major}.${minor}.${patch}"
+            echo "New tag: $new_tag"
+            echo "NEW_TAG=$new_tag" >> $GITHUB_ENV
+          else
+            echo "No valid previous tag found. Exiting."
+            exit 1
+          fi
+
+      - name: Create new tag
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          new_tag=${{ env.NEW_TAG }}
+          echo "Creating new tag: $new_tag"
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git tag $new_tag
+          git push origin $new_tag
+
+      - name: Create a Release
+        run: |
+          new_tag=${{ env.NEW_TAG }}
+          echo "Creating release for tag: $new_tag"
+          curl -X POST https://api.github.com/repos/${{ github.repository }}/releases \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            -d '{"tag_name": "'"$new_tag"'","name": "'"$new_tag"'","body": "Release description for '"$new_tag"'","draft": false,"prerelease": false}'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: pnpm package manager setup
+        uses: pnpm/action-setup@v4
+        with:
+          version: latest
+
+      - name: node v20.x setup
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+
+      - name: install dependencies
+        run: npm install
+
+      - name: build
+        run: npm run build
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Deploy to S3
+        run: |
+          aws s3 sync dist/ s3://${{ secrets.S3_BUCKET_NAME }} --delete
+
+      - name: Invalidate CloudFront cache
+        run: |
+          aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
