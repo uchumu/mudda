@@ -11,7 +11,7 @@
 |---|---|
 |`npm i`|의존성 설치|
 |`npm run dev`|개발 환경 가동|
-|`npm run build`|빌드 산출물 생성. `turbo.json`과 각 앱 디렉토리 내에서 `outputs` 폴더 설정 가능|
+|`npm run build`|빌드|
 
 # 브랜치 명명 규칙
 
