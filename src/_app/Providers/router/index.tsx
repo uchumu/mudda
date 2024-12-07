@@ -19,7 +19,7 @@ const router = createBrowserRouter([
     element: <CapsuleDetailPage />,
   },
   {
-    path: "/capsule/message/create",
+    path: "/capsule/:code/message/create",
     element: <CreateMessagePage />,
   },
 ]);
