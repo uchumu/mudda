@@ -8,10 +8,10 @@ export interface ButtonProps {
 const CommonButton = ({ title, onClick, disabled = false }: ButtonProps) => (
   <button
     className={clsx(
-      "w-full py-4 text-center z-[100] rounded-[16px] cursor-pointer",
+      "w-full py-4 text-center z-[100] rounded-[16px]",
       disabled
-        ? "bg-primary-disabled text-primary-disabled-text"
-        : "bg-primary-main text-primary-text"
+        ? "bg-primary-disabled text-primary-disabled-text cursor-not-allowed"
+        : "bg-primary-main text-primary-text cursor-pointer"
     )}
     onClick={disabled ? undefined : onClick}
     aria-disabled={disabled}

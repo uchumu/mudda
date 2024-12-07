@@ -1,13 +1,10 @@
 import LandingLogo from "@/assets/images/landingLogo.png";
-import { useAlert } from "@/_app/Providers/alert";
 import CommonButtons from "@/components/CustomButtons";
+import { useNavigate } from "react-router";
 
 const LandingPage = () => {
-  const { alert } = useAlert();
-
-  const handleClick = async () => {
-    await alert("준비중이에요.");
-  };
+  const navigate = useNavigate();
+  const handleClick = () => navigate("/capsule/create");
 
   return (
     <div className="relative w-[100%] h-[100%] bg-primary-paper">
@@ -15,10 +12,7 @@ const LandingPage = () => {
         <img src={LandingLogo} className="px-[112px]" />
       </div>
 
-      <CommonButtons.BottomButton
-        title="캡슐 생성하기"
-        onClick={handleClick}
-      ></CommonButtons.BottomButton>
+      <CommonButtons.BottomButton title="캡슐 생성하기" onClick={handleClick} />
     </div>
   );
 };
