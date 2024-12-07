@@ -4,6 +4,8 @@ import NameInputStep from "./Steps/NameInputStep";
 import useNameInputStep from "./Steps/NameInputStep/useNameInputStep";
 import PasswordInputStep from "./Steps/PasswordInputStep";
 import usePasswordInputStep from "./Steps/PasswordInputStep/usePasswordInputStep";
+import SelectMapStep from "./Steps/SelectMapStep";
+import useSelectMapStep from "./Steps/SelectMapStep/useSelectMapStep";
 
 const CreateCapsulePage = () => {
   const navigate = useNavigate();
@@ -20,6 +22,9 @@ const CreateCapsulePage = () => {
     stepProps: passwordInputStepProps,
   } = usePasswordInputStep();
 
+  // plz send coordinates
+  const { coordinates, setCoordinates } = useSelectMapStep();
+
   const steps: Array<Step> = [
     {
       children: <div>step 1</div>,
@@ -35,7 +40,7 @@ const CreateCapsulePage = () => {
     },
 
     {
-      children: <div>step 3</div>,
+      children: <SelectMapStep setCoordinates={setCoordinates} />,
       BottomButton: {
         onClick: () => true,
       },
