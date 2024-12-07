@@ -27,10 +27,7 @@ const CreateCapsulePage = () => {
     stepProps: passwordInputStepProps,
   } = usePasswordInputStep();
 
-  // plz send coordinates
-  // plz useing this comment, because it is build failed.
-  // const { coordinates, setCoordinates } = useSelectMapStep();
-  const { setCoordinates } = useSelectMapStep();
+  const { coordinates, setCoordinates } = useSelectMapStep();
 
   const steps: Array<Step> = [
     {
@@ -81,10 +78,10 @@ const CreateCapsulePage = () => {
     mutateAsync({
       title: inputName,
       map: {
-        x: 0,
-        y: 0,
+        x: coordinates[0],
+        y: coordinates[1],
       },
-      goalTime: 1733599233,
+      goalTime: 2733599233,
       capsuleDesignId: 1,
       password: inputPassword,
     })
