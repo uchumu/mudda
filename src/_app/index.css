@@ -10,7 +10,7 @@
 
 body {
   max-width: 480px;
-  margin: 0;
+  margin: 0 auto;
   padding: 0;
   /* --vh를 사용하여 높이 계산 */
   height: calc(var(--vh, 1vh) * 100);
