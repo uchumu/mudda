@@ -1,30 +1,27 @@
 import { useLoadingOverlay } from "@/_app/Providers/loadingOverlay";
-import CustomButtons from "@/components/CustomButtons";
+import { useCapsuleQuery } from "@/queries/Capsule/useCapsuleService";
 import { isUndefined } from "@/utils";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useNavigate, useParams } from "react-router";
+import CapsuleStatusSwitcher from "./CapsuleStatusSwitcher";
 
 // 진입점 설정을 위해 임시로 작성되었습니다.
 const CapsuleDetailPage = () => {
   const { code } = useParams();
   const capsuleCode = useMemo(() => (isUndefined(code) ? "" : code), [code]);
   const navigate = useNavigate();
-
+  const { isPending, error, data } = useCapsuleQuery({ code: capsuleCode });
   const { setGlobalLoading } = useLoadingOverlay();
 
+  useEffect(() => console.log("data", data), [data]);
+  useEffect(() => {
+    if (error) navigate("/");
+  }, [error]);
+  useEffect(() => setGlobalLoading(isPending), [isPending]);
   return (
-    <>
-      <CustomButtons.CommonButton
-        title="글로벌 로딩 테스트"
-        onClick={() => setGlobalLoading(true)}
-      ></CustomButtons.CommonButton>
-      <CustomButtons.BottomButton
-        title="캡슐 채우기"
-        onClick={() =>
-          navigate(`/capsule/${encodeURIComponent(capsuleCode)}/message/create`)
-        }
-      />
-    </>
+    <div className="bg-primary-paper w-full h-full">
+      {!isPending && !error && <CapsuleStatusSwitcher capsule={data.data} />}
+    </div>
   );
 };
 
