@@ -1,13 +1,13 @@
+import BackButtonHeader from "@/components/BackButtonHeader";
+import CustomButtons from "@/components/CustomButtons";
+import StepProgress from "@/components/Progress/StepProgress";
 import { isUndefined } from "@/utils";
 import { useMemo, useState } from "react";
-import BackButtonHeader from "../BackButtonHeader";
-import CustomButtons from "../CustomButtons";
-import StepProgress from "../Progress/StepProgress";
 
 export interface Step {
   children: JSX.Element;
   BottomButton: {
-    title: string;
+    title?: string;
     onClick: () => boolean;
     disabled?: boolean;
   };
@@ -47,22 +47,29 @@ const Funnel = ({ steps, firstBackCallback, lastNextCallback }: Props) => {
   const goNext = () => {
     if (isUndefined(focusedStep)) return;
 
+    const isValid = focusedStep.BottomButton.onClick();
+
+    if (!isValid) return;
+
     if (focusedStepIndex >= steps.length - 1) {
       lastNextCallback();
 
       return;
     }
 
-    const isValid = focusedStep.BottomButton.onClick();
-
-    if (isValid) setFocusedStepIndex((prev) => prev + 1);
+    setFocusedStepIndex((prev) => prev + 1);
   };
 
   return (
     <div className="w-full h-full">
       <BackButtonHeader onClick={goBack} />
       <StepProgress max={steps.length} current={focusedStepIndex} />
-      <CustomButtons.BottomButton title={"다음"} onClick={goNext} />
+      {!isUndefined(focusedStep) && focusedStep.children}
+      <CustomButtons.BottomButton
+        title={focusedStep?.BottomButton.title ?? "다음"}
+        onClick={goNext}
+        disabled={focusedStep?.BottomButton.disabled}
+      />
     </div>
   );
 };

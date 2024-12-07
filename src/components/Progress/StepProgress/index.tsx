@@ -20,7 +20,7 @@ const StepProgress = ({ max, current }: Props) => {
   );
 
   return (
-    <div className="w-full flex gap-[6px] h-[4px]">
+    <div className="w-full flex gap-[6px] h-[4px] px-[22px]">
       {colors.map((color, index) => {
         return (
           <div
