@@ -33,7 +33,7 @@ class Service {
   private headers: Record<string, string>;
 
   constructor() {
-    this.baseURL = backendUrl;
+    this.baseURL = backendUrl + "/api";
     this.headers = {
       csrf: "token",
       Referer: this.baseURL,
@@ -72,7 +72,6 @@ class Service {
           "Content-Type": "application/json",
           ...config?.headers,
         },
-        credentials: "include",
         body: data ? JSON.stringify(data) : undefined,
         ...config,
       });
