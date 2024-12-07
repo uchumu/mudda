@@ -23,7 +23,9 @@ const CreateCapsulePage = () => {
   } = usePasswordInputStep();
 
   // plz send coordinates
-  const { coordinates, setCoordinates } = useSelectMapStep();
+  // plz useing this comment, because it is build failed.
+  // const { coordinates, setCoordinates } = useSelectMapStep();
+  const { setCoordinates } = useSelectMapStep();
 
   const steps: Array<Step> = [
     {
