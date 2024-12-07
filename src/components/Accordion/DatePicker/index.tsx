@@ -4,15 +4,16 @@ import { ko } from "date-fns/locale";
 import "react-day-picker/style.css";
 import "./index.css";
 import { useAccordion } from "@/components/Accordion/BaseAccordion/useAcordionContext";
+import { Dispatch, SetStateAction } from "react";
 
 interface Props {
   dataValue: Date;
-  setDataValue: (newData: Date) => void;
+  setDataValue: Dispatch<SetStateAction<Date>>;
 }
 
 /**데이트 선택 컴포넌트 */
 export default function DatePicker({ dataValue, setDataValue }: Props) {
-  //TODO : 다른 전환 방법 생각하기
+  //TODO : 좋은 방법
   const { setActiveSection } = useAccordion();
 
   const formatYearMonthKorean = (month: Date) => {

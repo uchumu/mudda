@@ -38,7 +38,7 @@ const NumberWheel = memo(
         <div className="relative h-full">
           {items.map((item, index) => {
             const position =
-              ((index - selectedValue + items.length) % items.length) - 2;
+              (((index + 2) - selectedValue + items.length) % items.length) - 2;
             return (
               <div
                 key={item}
@@ -78,7 +78,7 @@ const WheelTimePicker = ({
   const [activeWheel, setActiveWheel] = useState<
     "hours" | "minutes" | "seconds" | null
   >(null);
-
+  
   const items = useMemo(
     () => ({
       hours: Array.from({ length: 24 }, (_, i) =>

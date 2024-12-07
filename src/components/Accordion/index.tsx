@@ -1,14 +1,18 @@
-import { useCallback, useState } from "react";
+import { Dispatch, SetStateAction, useCallback } from "react";
 
 import Accordion from "@/components/Accordion/BaseAccordion";
 import DatePicker from "@/components/Accordion/DatePicker";
 import WheelTimePicker from "@/components/Accordion/TimePicker";
 
-export default function PickerAccordion() {
-  const [selected, setSelected] = useState<Date>(new Date());
+type Props = {
+  selected: Date;
+  setSelected: Dispatch<SetStateAction<Date>>;
+};
+export default function PickerAccordion({ selected, setSelected }: Props) {
   const isSelectedPicker = selected ? `${selected?.toLocaleDateString()}` : "";
 
   const formatTime = useCallback((date: Date) => {
+    console.log(date,"format")
     const hours = date.getHours().toString().padStart(2, "0");
     const minutes = date.getMinutes().toString().padStart(2, "0");
     const seconds = date.getSeconds().toString().padStart(2, "0");
@@ -17,7 +21,8 @@ export default function PickerAccordion() {
 
   const handleTimeChange = useCallback(
     (hours: number, minutes: number, seconds: number) => {
-      setSelected((prev) => {
+      console.log('')
+      setSelected((prev:Date) => {
         const newDate = new Date(prev);
         newDate.setHours(hours);
         newDate.setMinutes(minutes);
