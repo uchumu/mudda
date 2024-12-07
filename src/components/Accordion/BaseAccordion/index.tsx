@@ -1,20 +1,10 @@
-import { createContext, useContext, useState } from "react";
+import { useState } from "react";
 
 import AccordionChevron from "./AccordionChevron";
 
-import {
-  AccordionContextProps,
-  AccordionProps,
-  AccordionSectionProps,
-} from "./types";
+import { AccordionProps, AccordionSectionProps } from "./types";
 
-const AccordionContext = createContext<AccordionContextProps | null>(null);
-
-const useAccordion = () => {
-  const context = useContext(AccordionContext);
-  if (!context) throw new Error("Must be use within Accordion");
-  return context;
-};
+import { AccordionContext, useAccordion } from "./useAcordionContext";
 
 /**
  * @name Accordion
@@ -62,13 +52,13 @@ const Section = ({
   const isActive = activeSection === id;
 
   return (
-    <div className="flex flex-col gap-[10px]">
+    <div className="flex flex-col gap-[10px] mb-[26px]">
       <p className="font-pretendard text-[14px] font-normal leading-[16.8px] text-left underline-offset-[from-font] decoration-skip-ink-none">
         {label}
       </p>
       <div>
         <button
-          className="w-full py-[20px] px-[24px] rounded-[15px] h-[60px] flex items-center justify-between bg-[#F8F8F8] hover:border-[4px] border-[#5194F9]"
+          className="w-full py-[20px] px-[24px] rounded-[15px] h-[60px] flex items-center justify-between bg-[#F8F8F8]"
           onClick={() => setActiveSection(isActive ? " " : id)}
         >
           <span className="font-[400] text-[16px] leading-[19.2px]">
