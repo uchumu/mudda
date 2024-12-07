@@ -4,6 +4,20 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --vh: 100vh; /* 기본값으로 100vh 설정 */
+}
+
 body {
+  max-width: 480px;
   margin: 0;
+  padding: 0;
+  /* --vh를 사용하여 높이 계산 */
+  height: calc(var(--vh, 1vh) * 100);
+}
+
+body #root {
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff;
 }
