@@ -1,17 +1,35 @@
+import { isNull } from "@/utils";
+import { useEffect, useRef } from "react";
+
 interface Props {
   label?: string;
   value: string;
   setValue: (value: string) => void;
   placeholder?: string;
+  mountFocus?: boolean;
 }
-const CustomInput = ({ label, value, setValue, placeholder }: Props) => {
+const CustomInput = ({
+  label,
+  value,
+  setValue,
+  placeholder,
+  mountFocus = false,
+}: Props) => {
+  const inputRef = useRef<HTMLInputElement>(null);
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) =>
     setValue(event.target.value);
+
+  useEffect(() => {
+    if (isNull(inputRef.current) || !mountFocus) return;
+
+    inputRef.current.focus();
+  }, []);
 
   return (
     <div className="flex flex-col gap-[10px]">
       {label && <label className="text-[14px]">{label}</label>}
       <input
+        ref={inputRef}
         value={value}
         onChange={handleChange}
         placeholder={placeholder}

@@ -17,6 +17,7 @@ const NameInputStep = ({ name, setName }: Props) => {
         value={name}
         setValue={setName}
         placeholder="캡슐에 이름을 붙여주세요."
+        mountFocus
       />
     </div>
   );

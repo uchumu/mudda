@@ -17,6 +17,7 @@ const PasswordInputStep = ({ password, setPassword }: Props) => {
         value={password}
         setValue={setPassword}
         placeholder="캡슐비밀번호를 입력해 주세요."
+        mountFocus
       />
     </div>
   );

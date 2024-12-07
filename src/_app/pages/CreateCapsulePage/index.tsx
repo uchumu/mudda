@@ -1,10 +1,13 @@
 import Funnel, { Step } from "@/components/Funnel";
+import { useNavigate } from "react-router";
 import NameInputStep from "./Steps/NameInputStep";
 import useNameInputStep from "./Steps/NameInputStep/useNameInputStep";
 import PasswordInputStep from "./Steps/PasswordInputStep";
 import usePasswordInputStep from "./Steps/PasswordInputStep/usePasswordInputStep";
 
 const CreateCapsulePage = () => {
+  const navigate = useNavigate();
+
   const {
     inputName,
     setInputName,
@@ -50,11 +53,15 @@ const CreateCapsulePage = () => {
     },
   ];
 
+  const firstBackCallback = () => navigate("/");
+
+  const lastNextCallback = () => navigate("/capsule");
+
   return (
     <Funnel
       steps={steps}
-      firstBackCallback={() => console.log("go back")}
-      lastNextCallback={() => console.log("go next")}
+      firstBackCallback={firstBackCallback}
+      lastNextCallback={lastNextCallback}
     />
   );
 };
