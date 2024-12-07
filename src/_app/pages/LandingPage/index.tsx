@@ -1,5 +1,6 @@
 import LandingLogo from "@/assets/images/landingLogo.png";
 import { useAlert } from "@/_app/Providers/alert";
+import CommonButtons from "@/components/CustomButtons";
 
 const LandingPage = () => {
   const { alert } = useAlert();
@@ -14,14 +15,10 @@ const LandingPage = () => {
         <img src={LandingLogo} className="px-[112px]" />
       </div>
 
-      <div className="absolute bottom-[30px] px-[22px] w-full">
-        <div
-          onClick={handleClick}
-          className=" bg-primary-main text-primary-text h-[60px] w-full flex items-center justify-center rounded-[15px] font-bold"
-        >
-          캡슐 생성하기
-        </div>
-      </div>
+      <CommonButtons.BottomButton
+        title="캡슐 생성하기"
+        onClick={handleClick}
+      ></CommonButtons.BottomButton>
     </div>
   );
 };
