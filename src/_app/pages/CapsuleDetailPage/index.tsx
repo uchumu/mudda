@@ -1,14 +1,11 @@
 import { useLoadingOverlay } from "@/_app/Providers/loadingOverlay";
 import CustomButtons from "@/components/CustomButtons";
-import { useCapsuleQuery } from "@/queries/Capsule/useCapsuleService";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate } from "react-router";
 
 // 진입점 설정을 위해 임시로 작성되었습니다.
 const CapsuleDetailPage = () => {
-  const { code } = useParams();
   const navigate = useNavigate();
 
-  const { isPending, data, error } = useCapsuleQuery({ code });
   const { setGlobalLoading } = useLoadingOverlay();
 
   return (
