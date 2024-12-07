@@ -9,6 +9,11 @@ export default {
         "primary-disabled": "#A1A1A1",
         "primary-disabled-text": "#000",
         "primary-paper": "#F6FAFF",
+
+        "secondary-main": "#DFE3EA",
+        "secondary-text": "#525252",
+
+        error: "#FF3321",
       },
     },
   },

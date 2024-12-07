@@ -11,7 +11,13 @@ class CapsuleService extends Service {
     goalTime: number;
     capsuleDesignId: number;
     password: string;
-  }) => this.http.post<string>(`/capsule`, body);
+  }) =>
+    this.http.post<{
+      success: boolean;
+      code: number;
+      message: string;
+      data: string;
+    }>(`/capsule`, body);
 }
 
 export default new CapsuleService();

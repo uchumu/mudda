@@ -15,7 +15,7 @@ const router = createBrowserRouter([
     element: <CreateCapsulePage />,
   },
   {
-    path: "/capsule",
+    path: "/capsule/:code",
     element: <CapsuleDetailPage />,
   },
   {

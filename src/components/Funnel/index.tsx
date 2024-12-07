@@ -69,6 +69,7 @@ const Funnel = ({ steps, firstBackCallback, lastNextCallback }: Props) => {
         title={focusedStep?.BottomButton.title ?? "다음"}
         onClick={goNext}
         disabled={focusedStep?.BottomButton.disabled}
+        errorMessage={focusedStep?.errorMessage}
       />
     </div>
   );
