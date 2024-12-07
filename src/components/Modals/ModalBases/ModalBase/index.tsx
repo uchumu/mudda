@@ -5,7 +5,7 @@ import "./index.css";
 interface ModalBaseProps extends PropsWithChildren {
   hideModal: () => void;
 }
-const ModalBase = ({ hideModal, children }: ModalBaseProps) => {
+const ModalBase = ({ children }: ModalBaseProps) => {
   const [inProp, setProp] = useState<boolean>(false);
   const nodeRef = useRef(null);
 
