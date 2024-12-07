@@ -6,6 +6,7 @@
 
 :root {
   --vh: 100vh; /* 기본값으로 100vh 설정 */
+  background-color: #fbfbfb; /* 원하는 배경색 */
 }
 
 body {
