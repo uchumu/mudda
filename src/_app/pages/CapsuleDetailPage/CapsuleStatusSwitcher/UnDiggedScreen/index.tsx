@@ -41,6 +41,8 @@ const UnDiggedScreen = ({ capsule }: Props) => {
   // TODO: 파묻기 시도 후 콜백 설정(에러메시지 분기처리)
   useEffect(() => console.log(isDigCompleteModalOpen, isDigFailModalOpen));
 
+  const goSharePage = () => console.log("WIP");
+
   return (
     <>
       {capsule.status}
@@ -55,6 +57,7 @@ const UnDiggedScreen = ({ capsule }: Props) => {
           type: "secondary",
         }}
       />
+      <CustomButtons.FAB onClick={goSharePage} />
       {isDigModalOpen && (
         <CapsuleDigModal
           inputPassword={inputPassword}
