@@ -23,7 +23,7 @@ const Alert = ({ message, onConfirm }: Props) => {
           </div>
           <div
             onClick={onConfirm}
-            className="cursor-pointer bg-[#5194F9] text-[#ffffff] h-[60px] w-full flex items-center justify-center rounded-[15px] font-bold"
+            className="cursor-pointer bg-primary-main text-primary-text h-[60px] w-full flex items-center justify-center rounded-[15px] font-bold"
           >
             확인
           </div>
