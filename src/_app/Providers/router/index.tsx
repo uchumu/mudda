@@ -1,10 +1,10 @@
-import IntroPage from "@/_app/pages/IntroPage";
+import LandingPage from "@/_app/pages/LandingPage";
 import { createBrowserRouter } from "react-router";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <IntroPage />,
+    element: <LandingPage />,
   },
 ]);
 
