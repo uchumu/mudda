@@ -8,8 +8,6 @@ const useSelectDateStep = () => {
     threeDaysLater.setHours(0, 0, 0, 0);
     return threeDaysLater;
   });
-  console.log(selectDate)
-  //저는 개발
   return { selectDate, setSelectDate };
 };
 
