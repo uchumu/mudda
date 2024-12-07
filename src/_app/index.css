@@ -9,6 +9,7 @@
 }
 
 body {
+  position: relative;
   max-width: 480px;
   margin: 0 auto;
   padding: 0;
