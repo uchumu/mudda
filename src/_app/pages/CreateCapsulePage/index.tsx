@@ -59,7 +59,7 @@ const CreateCapsulePage = () => {
       BottomButton: {
         onClick: () => true,
       },
-      errorMessage: "잘못된 입력입니다.",
+      errorMessage: "",
     },
 
     {
