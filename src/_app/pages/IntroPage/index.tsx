@@ -5,6 +5,13 @@ const IntroPage = () => {
   return (
     <>
       <span>CD 테스트4</span>
+      <span>CD 테스트4</span>
+      <span>CD 테스트4</span>
+      <span>CD 테스트4</span>
+      <span>CD 테스트4</span>
+      <span>CD 테스트4</span>
+      <span>CD 테스트4</span>
+      <span>CD 테스트4</span>
       <CustomButtons.BottomButton
         title={"hi"}
         onClick={() => console.log("hi")}

@@ -6,9 +6,11 @@ interface Props extends ButtonProps {
 }
 const BottomButton = ({ title, onClick, disabled, leftButton }: Props) => {
   return (
-    <div className="fixed bottom-[30px] left-0 w-full px-[22px] flex gap-[5px]">
-      {!isUndefined(leftButton) && <CommonButton {...leftButton} />}
-      <CommonButton title={title} onClick={onClick} disabled={disabled} />
+    <div className="fixed top-0 w-full max-w-[480px] h-full">
+      <div className="absolute z-50 bottom-[30px] left-0 w-full px-[22px] flex gap-[5px]">
+        {!isUndefined(leftButton) && <CommonButton {...leftButton} />}
+        <CommonButton title={title} onClick={onClick} disabled={disabled} />
+      </div>
     </div>
   );
 };
