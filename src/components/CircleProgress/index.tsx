@@ -46,7 +46,7 @@ const CircleProgress = ({ createTime, goalTime }: Props) => {
       <div
         style={{
           background: `conic-gradient(
-            #5c9df2 0% ${percent}%, 
+            #5194F9 0% ${percent}%, 
             #ffffff ${percent}% 100%
           )`,
         }}
