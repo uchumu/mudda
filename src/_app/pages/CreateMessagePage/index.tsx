@@ -67,18 +67,24 @@ const CreateMessagePage = () => {
     setGlobalLoading(true);
 
     const formData = new FormData();
-    formData.append("code", capsuleCode);
     formData.append(
       "dto",
-      JSON.stringify({
-        useName: inputName,
-        text: inputText,
-      })
+      new Blob(
+        [
+          JSON.stringify({
+            code: capsuleCode,
+            userName: inputName,
+            text: inputText,
+          }),
+        ],
+        { type: "application/json" }
+      )
     );
     if (!isUndefined(inputPhoto)) formData.append("file", inputPhoto?.file);
 
     mutateAsync(formData)
-      .then(() => {
+      .then((res) => {
+        if (res.status !== 200) throw new Error();
         setTimeout(() => setIsCreateCompleteModalOpen(true), 1000);
       })
       .finally(() => {
