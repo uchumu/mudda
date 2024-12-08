@@ -1,0 +1,18 @@
+.picker-wrap .rdp-root {
+  width: 100%;
+}
+
+.picker-wrap .rdp-root .rdp-months {
+  width: 100%;
+  max-width: none;
+}
+
+.picker-wrap .rdp-root .rdp-months .text-primary-main {
+  width: 100%;
+}
+.picker-wrap .rdp-root .rdp-months .text-primary-main .rdp-month_grid {
+  width: 100%;
+}
+.picker-wrap .rdp-root .rdp-months .text-primary-main .rdp-month_grid button {
+  width: 100%;
+}

@@ -3,17 +3,23 @@ import Funnel, { Step } from "@/components/Funnel";
 import CapsuleCreateCompleteModal from "@/components/Modals/CapsuleCreateCompleteModal";
 import CapsuleCreateConfirmModal from "@/components/Modals/CapsuleCreateConfirmModal";
 import { useCapsuleMutate } from "@/queries/Capsule/useCapsuleService";
+import { getTimeStampByDate } from "@/utils/formatTime";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import NameInputStep from "./Steps/NameInputStep";
 import useNameInputStep from "./Steps/NameInputStep/useNameInputStep";
 import PasswordInputStep from "./Steps/PasswordInputStep";
 import usePasswordInputStep from "./Steps/PasswordInputStep/usePasswordInputStep";
+import SelectDateStep from "./Steps/SelectDateStep";
+import useSelectDateStep from "./Steps/SelectDateStep/useSelectDateStep";
 import SelectMapStep from "./Steps/SelectMapStep";
 import useSelectMapStep from "./Steps/SelectMapStep/useSelectMapStep";
 
 const CreateCapsulePage = () => {
   const navigate = useNavigate();
+
+  const { selectDate, setSelectDate } = useSelectDateStep();
+  const selectGoaltime = getTimeStampByDate(selectDate);
 
   const {
     inputName,
@@ -31,11 +37,13 @@ const CreateCapsulePage = () => {
 
   const steps: Array<Step> = [
     {
-      children: <div>step 1</div>,
+      children: (
+        <SelectDateStep selectDate={selectDate} setSelectDate={setSelectDate} />
+      ),
       BottomButton: {
         onClick: () => true,
       },
-      errorMessage: "잘못된 입력입니다.",
+      errorMessage: "",
     },
 
     {
@@ -81,7 +89,7 @@ const CreateCapsulePage = () => {
         x: coordinates[0],
         y: coordinates[1],
       },
-      goalTime: 2733599233,
+      goalTime: selectGoaltime,
       capsuleDesignId: 1,
       password: inputPassword,
     })
