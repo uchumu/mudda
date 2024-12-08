@@ -8,6 +8,7 @@ import CircleProgress from "@/components/Progress/CircleProgress";
 import { DiggedCapsule } from "@/types/server";
 
 import { formatTimestampToDate, parseGoalTime } from "@/assets/ts/common.ts";
+import { MapBottomSheet } from "@/components/BottomSheet";
 import { useInterval } from "@/hooks/useInterval";
 import { queryKeys } from "@/queries/Capsule/useCapsuleService";
 import { isUndefined } from "@/utils";
@@ -54,6 +55,9 @@ const DiggedScreen = ({ capsule }: Props) => {
     setPercent(percentage);
   };
 
+  const [isMapShown, setIsMapShown] = useState<boolean>(false);
+  const onClickOpenMap = () => setIsMapShown(true);
+
   const goSharePage = () =>
     navigate(`/capsule/${encodeURIComponent(capsuleCode)}/share`);
 
@@ -75,6 +79,7 @@ const DiggedScreen = ({ capsule }: Props) => {
             src={openMapIcon}
             alt=""
             className="w-[28px] h-[31px] bottom-1"
+            onClick={onClickOpenMap}
           />
         </div>
 
@@ -136,6 +141,15 @@ const DiggedScreen = ({ capsule }: Props) => {
       >
         <img src={ExportIcon} alt="" />
       </div>
+
+      {isMapShown && (
+        <MapBottomSheet
+          setIsShown={setIsMapShown}
+          coordinateX={capsule.map.x}
+          coordinateY={capsule.map.y}
+        />
+      )}
+
       <CustomButtons.BottomButton
         title={`${parseGoalTime(capsule.goalTime).days}일 ${
           parseGoalTime(capsule.goalTime).hours
