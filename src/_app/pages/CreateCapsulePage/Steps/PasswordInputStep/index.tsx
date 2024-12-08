@@ -18,6 +18,14 @@ const PasswordInputStep = ({ password, setPassword }: Props) => {
         placeholder="캡슐비밀번호를 입력해 주세요."
         mountFocus
       />
+      <div className="h-[16px]" />
+      <div className="w-full py-[22px] px-[18px] rounded-[16px] bg-[#F8F8F8] text-[14px] text-[#A1A1A1] flex flex-col">
+        <p>* 캡슐 파묻기 시에 사용될 비밀번호입니다.</p>
+        <p>
+          * 비밀번호 분실 시 재설정이{" "}
+          <span className="font-bold text-error">불가능</span>합니다.
+        </p>
+      </div>
     </div>
   );
 };

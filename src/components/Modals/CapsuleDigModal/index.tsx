@@ -1,4 +1,4 @@
-import IconErrorBlue from "@/assets/icons/error-icon-blue.svg?react";
+import IconError from "@/assets/icons/error-icon.svg?react";
 import CustomInput from "@/components/CustomInput";
 import TwoButtonModal from "../ModalBases/TwoButtonModal";
 
@@ -29,6 +29,7 @@ const CapsuleDigModal = ({
       </p>
       <div className="w-[10px]" />
       <CustomInput
+        mountFocus
         value={inputPassword}
         setValue={handleInputPassword}
         size="small"
@@ -36,8 +37,10 @@ const CapsuleDigModal = ({
       />
       <div className="h-[10px]" />
       <div className="flex gap-[5px] items-center">
-        <IconErrorBlue />
-        <p className="text-[14px] text-primary-main">묻으면 빠꾸 X</p>
+        <IconError />
+        <p className="text-[14px] text-error text-center">
+          묻으면 새로운 내용을 추가할 수 없어요.
+        </p>
       </div>
     </div>
   </TwoButtonModal>

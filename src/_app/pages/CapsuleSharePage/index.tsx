@@ -1,6 +1,7 @@
 import IconCopy from "@/assets/icons/copy-icon.svg?react";
 import BackButtonHeader from "@/components/BackButtonHeader";
 import { domain } from "@/constants/environments";
+import useToast from "@/hooks/useToast";
 import { isUndefined } from "@/utils";
 import { QRCodeSVG } from "qrcode.react";
 import { useMemo } from "react";
@@ -14,9 +15,14 @@ const CapsuleSharePage = () => {
     [capsuleCode]
   );
 
+  const { showToast } = useToast();
+
   const navigate = useNavigate();
   const goBack = () => navigate(`/capsule/${encodeURIComponent(capsuleCode)}`);
-  const onClickCopy = () => navigator.clipboard.writeText(shareUrl);
+  const onClickCopy = () =>
+    navigator.clipboard
+      .writeText(shareUrl)
+      .then(() => showToast("클립보드 복사 완료!"));
 
   return (
     <div className="w-full h-full bg-primary-paper">
