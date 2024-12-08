@@ -37,7 +37,7 @@ const Accordion = ({ children, defaultSection = "" }: AccordionProps) => {
 
   return (
     <AccordionContext.Provider value={value}>
-      <div className="w-full px-[22px]">{children}</div>
+      <div className="w-full">{children}</div>
     </AccordionContext.Provider>
   );
 };
@@ -66,14 +66,7 @@ const Section = ({
           </span>
           <AccordionChevron isActive={isActive} />
         </button>
-        {isActive && (
-          <div
-            className="w-full rounded-[15px] bg-white bg-opacity-100 border-[4px] border-transparent hover:border-[#5194F9]"
-            autoFocus
-          >
-            {children}
-          </div>
-        )}
+        {isActive && <div>{children}</div>}
       </div>
     </div>
   );

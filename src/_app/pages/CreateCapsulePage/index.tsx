@@ -20,6 +20,7 @@ const CreateCapsulePage = () => {
 
   const { selectDate, setSelectDate } = useSelectDateStep();
   const selectGoaltime = getTimeStampByDate(selectDate);
+  console.log(selectGoaltime)
 
   const {
     inputName,
