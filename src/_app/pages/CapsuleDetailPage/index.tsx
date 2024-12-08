@@ -13,7 +13,6 @@ const CapsuleDetailPage = () => {
   const { isPending, error, data } = useCapsuleQuery({ code: capsuleCode });
   const { setGlobalLoading } = useLoadingOverlay();
 
-  useEffect(() => console.log("data", data), [data]);
   useEffect(() => {
     if (error) navigate("/");
   }, [error]);

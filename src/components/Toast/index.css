@@ -1,0 +1,17 @@
+/* Toast가 들어올 때 애니메이션 */
+.slide-enter {
+  transform: translateY(100%); /* 화면 아래에서 시작 */
+}
+.slide-enter-active {
+  transform: translateY(0); /* 위치로 이동 */
+  transition: transform 0.5s ease;
+}
+
+/* Toast가 나갈 때 애니메이션 */
+.slide-exit {
+  transform: translateY(0); /* 현재 위치 */
+}
+.slide-exit-active {
+  transform: translateY(100%); /* 화면 아래로 이동 */
+  transition: transform 0.5s ease;
+}

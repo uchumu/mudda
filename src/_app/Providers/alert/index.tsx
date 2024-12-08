@@ -1,11 +1,6 @@
 import Alert from "@/components/Alert";
-import { createContext, useContext, useState, FC, ReactNode } from "react";
-
-type AlertContextType = {
-  alert: (message: string) => Promise<void>;
-};
-
-const AlertContext = createContext<AlertContextType | null>(null);
+import { FC, ReactNode, useState } from "react";
+import AlertContext from "./AlertContext";
 
 export const AlertProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
@@ -34,12 +29,4 @@ export const AlertProvider: FC<{ children: ReactNode }> = ({ children }) => {
       )}
     </AlertContext.Provider>
   );
-};
-
-export const useAlert = () => {
-  const context = useContext(AlertContext);
-  if (!context) {
-    throw new Error("useAlert must be used within an AlertProvider");
-  }
-  return context;
 };

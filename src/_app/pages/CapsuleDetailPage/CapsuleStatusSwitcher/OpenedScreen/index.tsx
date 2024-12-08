@@ -1,4 +1,5 @@
 import IconMap from "@/assets/icons/map-icon.svg?react";
+import { MapBottomSheet } from "@/components/BottomSheet";
 import Capsule from "@/components/Capsule";
 import CapsuleNameHeader from "@/components/CapsuleNameHeader";
 import CustomButtons from "@/components/CustomButtons";
@@ -9,7 +10,6 @@ import { useMemo, useState } from "react";
 import { useParams } from "react-router";
 import MessageDetailOverlay from "./MessageDetailOverlay";
 import OpenedScreenBottom from "./OpenedScreenBottom";
-import { MapBottomSheet } from "@/components/BottomSheet";
 
 interface Props {
   capsule: OpenedCapsule;
@@ -37,8 +37,6 @@ const OpenedScreen = ({ capsule }: Props) => {
       prev === capsule.messages.length - 1 ? 0 : prev + 1
     );
 
-  // TODO: 맵 바텀시트 구현
-
   const [isOverlayOpen, setIsOverlayOpen] = useState<boolean>(false);
   const openOverlay = () => setIsOverlayOpen(true);
   const closeOverlay = () => setIsOverlayOpen(false);
@@ -59,14 +57,6 @@ const OpenedScreen = ({ capsule }: Props) => {
 
   return (
     <div className="relative w-full h-full">
-      {isMapShown && (
-        <MapBottomSheet
-          setIsShown={setIsMapShown}
-          coordinateX={capsule.map.x}
-          coordinateY={capsule.map.y}
-        />
-      )}
-
       <div className="w-full h-full bg-primary-paper">
         <CapsuleNameHeader
           capsuleName={capsule.title}
@@ -101,6 +91,14 @@ const OpenedScreen = ({ capsule }: Props) => {
           MessageIndexCapsule={<MessageIndexCapsule />}
           goPrev={goPrev}
           goNext={goNext}
+        />
+      )}
+
+      {isMapShown && (
+        <MapBottomSheet
+          setIsShown={setIsMapShown}
+          coordinateX={capsule.map.x}
+          coordinateY={capsule.map.y}
         />
       )}
     </div>

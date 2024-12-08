@@ -7,7 +7,7 @@ import CapsuleDigModal from "@/components/Modals/CapsuleDigModal";
 import { useDigMutate } from "@/queries/Capsule/useCapsuleService";
 import { UndiggedCapsule } from "@/types/server";
 import { isUndefined } from "@/utils";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 
 import UndiggedImage from "@/assets/images/undiggedImage.png";
@@ -16,7 +16,8 @@ import UndiggedImage2 from "@/assets/images/undiggedImage2.png";
 import UndiggedImage3 from "@/assets/images/undiggedImage3.png";
 import UndiggedImage4 from "@/assets/images/undiggedImage4.png";
 import UndiggedImage5 from "@/assets/images/undiggedImage5.png";
-import { useAlert } from "@/_app/Providers/alert";
+import useAlert from "@/hooks/useAlert";
+import useToast from "@/hooks/useToast";
 
 interface Props {
   capsule: UndiggedCapsule;
@@ -25,7 +26,7 @@ const UnDiggedScreen = ({ capsule }: Props) => {
   const { code } = useParams();
   const capsuleCode = useMemo(() => (isUndefined(code) ? "" : code), [code]);
   const navigate = useNavigate();
-
+  const { showToast } = useToast();
   const { alert } = useAlert();
   const { setGlobalLoading } = useLoadingOverlay();
   const [isDigModalOpen, setIsDigModalOpen] = useState<boolean>(false);
@@ -41,25 +42,33 @@ const UnDiggedScreen = ({ capsule }: Props) => {
   const digModalCallback = async () => {
     if (capsule.goalTime > new Date().getTime()) {
       await alert("오픈시간이 지나, 캡슐 파묻기를 실패했습니다.");
+
       return;
     }
 
     setGlobalLoading(true);
 
     mutateAsync({ code: capsuleCode, password: inputPassword })
-      .then(() => setTimeout(() => setIsDigCompleteModalOpen(true), 1000))
-      .catch(() => setTimeout(() => setIsDigFailModalOpen(true), 1000))
+      // .then(() => setTimeout(() => setIsDigCompleteModalOpen(true), 1000))
+      // .catch(() => setTimeout(() => setIsDigFailModalOpen(true), 1000))
+      .then(() => setTimeout(() => showToast("캡슐을 파묻었어요!"), 1000))
+      .catch(() =>
+        setTimeout(
+          () =>
+            showToast("파묻기에 실패했어요. 비밀번호를 확인해주세요.", "error"),
+          1000
+        )
+      )
       .finally(() => {
         hideDigModal();
         setTimeout(() => setGlobalLoading(false), 1000);
       });
   };
 
-  const [isDigCompleteModalOpen, setIsDigCompleteModalOpen] =
-    useState<boolean>(false);
-  const [isDigFailModalOpen, setIsDigFailModalOpen] = useState<boolean>(false);
+  // const [isDigCompleteModalOpen, setIsDigCompleteModalOpen] =
+  // useState<boolean>(false);
+  // const [isDigFailModalOpen, setIsDigFailModalOpen] = useState<boolean>(false);
   // TODO: 파묻기 시도 후 콜백 설정(에러메시지 분기처리)
-  useEffect(() => console.log(isDigCompleteModalOpen, isDigFailModalOpen));
 
   const [isMapShown, setIsMapShown] = useState<boolean>(false);
   const onClickOpenMap = () => setIsMapShown(true);
@@ -144,14 +153,6 @@ const UnDiggedScreen = ({ capsule }: Props) => {
       )}
 
       <CustomButtons.CapsuleShareFAB code={capsuleCode} />
-      {isDigModalOpen && (
-        <CapsuleDigModal
-          inputPassword={inputPassword}
-          handleInputPassword={handleInputPassword}
-          hideModal={hideDigModal}
-          onClick={digModalCallback}
-        />
-      )}
     </>
   );
 };
