@@ -15,7 +15,7 @@ const MessageDetailCard = ({ message }: Props) => {
 
   return (
     <div className="w-full flex-1 flex flex-col px-[22px]">
-      <div className="relative p-[12px] w-full flex-1 flex flex-col backdrop:rounded-[16px]">
+      <div className="relative p-[12px] w-full flex-1 flex flex-col rounded-[16px] shadow-[0_0_15px_0_rgba(0,0,0,0.05)]">
         <img
           src={overlaySrc}
           className="absolute top-[-27px] right-[20px] w-[42px] h-[31px]"
