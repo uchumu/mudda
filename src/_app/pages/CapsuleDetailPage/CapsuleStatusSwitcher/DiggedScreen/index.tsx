@@ -1,28 +1,26 @@
+import IconMap from "@/assets/icons/map-icon.svg?react";
 import AfterIcon from "@/assets/images/afterIcon.png";
 import CapsuleIcons from "@/assets/images/capsuleIcons.png";
 import DateIcons from "@/assets/images/dateIcons.png";
-import ExportIcon from "@/assets/images/exportIcon.png";
-import openMapIcon from "@/assets/images/openMapIcon.png";
 import CustomButtons from "@/components/CustomButtons";
 import CircleProgress from "@/components/Progress/CircleProgress";
 import { DiggedCapsule } from "@/types/server";
 
 import { formatTimestampToDate, parseGoalTime } from "@/assets/ts/common.ts";
 import { MapBottomSheet } from "@/components/BottomSheet";
+import CapsuleNameHeader from "@/components/CapsuleNameHeader";
 import { useInterval } from "@/hooks/useInterval";
 import { queryKeys } from "@/queries/Capsule/useCapsuleService";
 import { isUndefined } from "@/utils";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useParams } from "react-router";
 
 interface Props {
   capsule: DiggedCapsule;
 }
 
 const DiggedScreen = ({ capsule }: Props) => {
-  const navigate = useNavigate();
-
   const [percent, setPercent] = useState<number>(0);
 
   const { code } = useParams();
@@ -58,9 +56,6 @@ const DiggedScreen = ({ capsule }: Props) => {
   const [isMapShown, setIsMapShown] = useState<boolean>(false);
   const onClickOpenMap = () => setIsMapShown(true);
 
-  const goSharePage = () =>
-    navigate(`/capsule/${encodeURIComponent(capsuleCode)}/share`);
-
   useEffect(() => {
     calculatePercent(capsule);
   }, []);
@@ -71,18 +66,13 @@ const DiggedScreen = ({ capsule }: Props) => {
 
   return (
     <>
+      <CapsuleNameHeader
+        capsuleName={capsule.title}
+        rightButton={
+          <IconMap className="cursor-pointer" onClick={onClickOpenMap} />
+        }
+      />
       <div className="w-full h-full px-[22px] bg-primary-paper">
-        <div className="h-[54px] flex items-center justify-between mb-[31px] text-[18px]">
-          <div>{capsule.title}</div>
-
-          <img
-            src={openMapIcon}
-            alt=""
-            className="w-[28px] h-[31px] bottom-1"
-            onClick={onClickOpenMap}
-          />
-        </div>
-
         <div className="relative mt-[18px]">
           <div className="w-full h-[calc(100vh-54px-31px)]">
             <div className="flex">
@@ -135,12 +125,8 @@ const DiggedScreen = ({ capsule }: Props) => {
           </div>
         </div>
       </div>
-      <div
-        onClick={goSharePage}
-        className="absolute bottom-[108px] right-[22px] cursor-pointer"
-      >
-        <img src={ExportIcon} alt="" />
-      </div>
+
+      <CustomButtons.CapsuleShareFAB code={capsuleCode} />
 
       {isMapShown && (
         <MapBottomSheet
