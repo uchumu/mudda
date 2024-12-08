@@ -3,6 +3,7 @@ import IconMap from "@/assets/icons/map-icon.svg?react";
 import CapsuleNameHeader from "@/components/CapsuleNameHeader";
 import CustomButtons from "@/components/CustomButtons";
 import CapsuleDigModal from "@/components/Modals/CapsuleDigModal";
+import { MapBottomSheet } from "@/components/BottomSheet";
 import { useDigMutate } from "@/queries/Capsule/useCapsuleService";
 import { UndiggedCapsule } from "@/types/server";
 import { isUndefined } from "@/utils";
@@ -25,8 +26,7 @@ const UnDiggedScreen = ({ capsule }: Props) => {
   };
   const hideDigModal = () => setIsDigModalOpen(false);
   const [inputPassword, setInputPassword] = useState<string>("");
-  const handleInputPassword = (newPassword: string) =>
-    setInputPassword(newPassword);
+  const handleInputPassword = (newPassword: string) => setInputPassword(newPassword);
   const { mutateAsync } = useDigMutate({ code: capsuleCode });
   const digModalCallback = async () => {
     setGlobalLoading(true);
@@ -40,31 +40,23 @@ const UnDiggedScreen = ({ capsule }: Props) => {
       });
   };
 
-  const [isDigCompleteModalOpen, setIsDigCompleteModalOpen] =
-    useState<boolean>(false);
+  const [isDigCompleteModalOpen, setIsDigCompleteModalOpen] = useState<boolean>(false);
   const [isDigFailModalOpen, setIsDigFailModalOpen] = useState<boolean>(false);
   // TODO: 파묻기 시도 후 콜백 설정(에러메시지 분기처리)
   useEffect(() => console.log(isDigCompleteModalOpen, isDigFailModalOpen));
 
-  const goSharePage = () =>
-    navigate(`/capsule/${encodeURIComponent(capsuleCode)}/share`);
+  const goSharePage = () => navigate(`/capsule/${encodeURIComponent(capsuleCode)}/share`);
 
-  // TODO: 맵 바텀시트 구현
-  const onClickOpenMap = () => console.log("bottom sheet open");
+  const [isMapShown, setIsMapShown] = useState<boolean>(false);
+  const onClickOpenMap = () => setIsMapShown(true);
 
   return (
     <>
-      <CapsuleNameHeader
-        capsuleName={capsule.title}
-        rightButton={
-          <IconMap className="cursor-pointer" onClick={onClickOpenMap} />
-        }
-      />
+      <CapsuleNameHeader capsuleName={capsule.title} rightButton={<IconMap className="cursor-pointer" onClick={onClickOpenMap} />} />
+      {isMapShown && <MapBottomSheet setIsShown={setIsMapShown} coordinateX={capsule.map.x} coordinateY={capsule.map.y} />}
       <CustomButtons.BottomButton
         title="캡슐 채우기"
-        onClick={() =>
-          navigate(`/capsule/${encodeURIComponent(capsuleCode)}/message/create`)
-        }
+        onClick={() => navigate(`/capsule/${encodeURIComponent(capsuleCode)}/message/create`)}
         leftButton={{
           title: "캡슐 파묻기",
           onClick: openDigModal,
@@ -72,14 +64,7 @@ const UnDiggedScreen = ({ capsule }: Props) => {
         }}
       />
       <CustomButtons.FAB onClick={goSharePage} />
-      {isDigModalOpen && (
-        <CapsuleDigModal
-          inputPassword={inputPassword}
-          handleInputPassword={handleInputPassword}
-          hideModal={hideDigModal}
-          onClick={digModalCallback}
-        />
-      )}
+      {isDigModalOpen && <CapsuleDigModal inputPassword={inputPassword} handleInputPassword={handleInputPassword} hideModal={hideDigModal} onClick={digModalCallback} />}
     </>
   );
 };
