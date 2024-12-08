@@ -4,7 +4,7 @@
  * @returns 밀리초 단위의 타임스탬프
  */
 const getTimeStampByDate = (date: Date) => {
-  return date.getTime();
+  return new Date(date).getTime();
 };
 
 /**
