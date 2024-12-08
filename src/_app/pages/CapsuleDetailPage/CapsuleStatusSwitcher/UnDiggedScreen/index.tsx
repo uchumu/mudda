@@ -1,9 +1,9 @@
 import { useLoadingOverlay } from "@/_app/Providers/loadingOverlay";
 import IconMap from "@/assets/icons/map-icon.svg?react";
+import { MapBottomSheet } from "@/components/BottomSheet";
 import CapsuleNameHeader from "@/components/CapsuleNameHeader";
 import CustomButtons from "@/components/CustomButtons";
 import CapsuleDigModal from "@/components/Modals/CapsuleDigModal";
-import { MapBottomSheet } from "@/components/BottomSheet";
 import { useDigMutate } from "@/queries/Capsule/useCapsuleService";
 import { UndiggedCapsule } from "@/types/server";
 import { isUndefined } from "@/utils";
@@ -105,7 +105,7 @@ const UnDiggedScreen = ({ capsule }: Props) => {
         <div className="mt-4">
           <div className="items-center text-[18px] leading-[26px] w-full flex flex-col">
             <div>
-              현재까지
+              현재까지{" "}
               <span className="text-primary-main font-bold ">
                 {capsule.messageCount}개
               </span>
