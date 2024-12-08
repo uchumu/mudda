@@ -16,6 +16,7 @@ import UndiggedImage2 from "@/assets/images/undiggedImage2.png";
 import UndiggedImage3 from "@/assets/images/undiggedImage3.png";
 import UndiggedImage4 from "@/assets/images/undiggedImage4.png";
 import UndiggedImage5 from "@/assets/images/undiggedImage5.png";
+import { useAlert } from "@/_app/Providers/alert";
 
 interface Props {
   capsule: UndiggedCapsule;
@@ -25,6 +26,7 @@ const UnDiggedScreen = ({ capsule }: Props) => {
   const capsuleCode = useMemo(() => (isUndefined(code) ? "" : code), [code]);
   const navigate = useNavigate();
 
+  const { alert } = useAlert();
   const { setGlobalLoading } = useLoadingOverlay();
   const [isDigModalOpen, setIsDigModalOpen] = useState<boolean>(false);
   const openDigModal = () => {
@@ -37,6 +39,11 @@ const UnDiggedScreen = ({ capsule }: Props) => {
     setInputPassword(newPassword);
   const { mutateAsync } = useDigMutate({ code: capsuleCode });
   const digModalCallback = async () => {
+    if (capsule.goalTime > new Date().getTime()) {
+      await alert("오픈시간이 지나, 캡슐 파묻기를 실패했습니다.");
+      return;
+    }
+
     setGlobalLoading(true);
 
     mutateAsync({ code: capsuleCode, password: inputPassword })
