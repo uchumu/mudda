@@ -67,12 +67,12 @@ const CreateMessagePage = () => {
     setGlobalLoading(true);
 
     const formData = new FormData();
+    formData.append("code", capsuleCode);
     formData.append(
       "dto",
       JSON.stringify({
         useName: inputName,
         text: inputText,
-        code: capsuleCode,
       })
     );
     if (!isUndefined(inputPhoto)) formData.append("file", inputPhoto?.file);

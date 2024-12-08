@@ -3,7 +3,7 @@ import Service from "../Service";
 
 class MessageService extends Service {
   postMessage = (formData: FormData) =>
-    this.http.post<ResponseType<string>>(``, formData, {
+    this.http.post<ResponseType<string>>(`/capsule/message`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
