@@ -19,8 +19,16 @@ import useSelectMapStep from "./Steps/SelectMapStep/useSelectMapStep";
 const CreateCapsulePage = () => {
   const navigate = useNavigate();
 
-  const { selectDate, setSelectDate } = useSelectDateStep();
-  const selectGoaltime = useMemo(() => getSecondsFromDate(selectDate),[selectDate]);
+  const {
+    selectDate,
+    setSelectDate,
+    stepProps: selectDateStepProps,
+  } = useSelectDateStep();
+  
+  const selectGoaltime = useMemo(
+    () => getSecondsFromDate(selectDate),
+    [selectDate]
+  );
 
   const {
     inputName,
@@ -41,10 +49,7 @@ const CreateCapsulePage = () => {
       children: (
         <SelectDateStep selectDate={selectDate} setSelectDate={setSelectDate} />
       ),
-      BottomButton: {
-        onClick: () => true,
-      },
-      errorMessage: "",
+      ...selectDateStepProps,
     },
 
     {
