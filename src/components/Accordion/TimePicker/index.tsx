@@ -23,6 +23,11 @@ const NumberWheel = memo(
     return (
       <div
         className="relative w-full h-40 overflow-hidden bg-white rounded-lg select-none"
+        style={{ 
+          touchAction: 'none', 
+          WebkitOverflowScrolling: 'touch', 
+          overscrollBehavior: 'none' 
+        }}
         onWheel={(e) => onWheel(e, type)}
         onMouseDown={(e) => onMouseDown(e, type)}
         onTouchStart={(e) => onMouseDown(e, type)}
@@ -138,7 +143,7 @@ const WheelTimePicker = ({
       const delta = startY - clientY;
 
       // 최소 이동 거리
-      if (Math.abs(delta) < 15) return;
+      if (Math.abs(delta) < 25) return;
 
       // 이미 이동 중이면 무시
       if (isMoving.current) return;
@@ -185,7 +190,7 @@ const WheelTimePicker = ({
 
   const handleWheel = useCallback(
     (e: React.WheelEvent, type: "hours" | "minutes" | "seconds") => {
-      e.preventDefault();
+      //e.preventDefault(); passive event listener 경고의 원인
       const delta = e.deltaY > 0 ? 1 : -1;
 
       if (type === "hours") {
@@ -214,7 +219,10 @@ const WheelTimePicker = ({
   }, [handleMouseMove, handleMouseUp, handleTouchEnd]);
 
   return (
-    <div className="flex items-center w-full h-[182px] bg-white shadow-[0_4px_10px_rgba(0,0,0,0.25)] rounded-[16px] py-[30px] px-[50px]">
+    <div className="flex items-center w-full h-[182px] bg-white shadow-[0_4px_10px_rgba(0,0,0,0.25)] rounded-[16px] py-[30px] px-[50px]"
+    onTouchMove={e=> e.preventDefault()}
+    onTouchCancel={e=> e.preventDefault()}
+    >
       <div className="flex items-center w-full gap-6">
         <div className="flex-1">
           <NumberWheel
