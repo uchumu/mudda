@@ -40,6 +40,6 @@ export interface DiggedCapsule extends CapsuleBase {
 }
 export interface OpenedCapsule extends CapsuleBase {
   status: "opened";
-  message: Message[];
+  messages: Message[];
 }
 export type Capsule = UndiggedCapsule | DiggedCapsule | OpenedCapsule;
