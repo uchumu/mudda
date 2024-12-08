@@ -1,11 +1,11 @@
 import BottomButton from "./BottomButton";
+import CapsuleShareFAB from "./CapsuleShareFAB";
 import CommonButton from "./CommonButton";
-import FAB from "./FAB";
 
 const CustomButtons = {
   BottomButton,
   CommonButton,
-  FAB,
+  CapsuleShareFAB,
 };
 
 export default CustomButtons;

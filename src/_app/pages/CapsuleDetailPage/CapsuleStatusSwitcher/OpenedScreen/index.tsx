@@ -1,54 +1,93 @@
-import { OpenedCapsule } from "@/types/server";
-import openMapIcon from "@/assets/images/openMapIcon.png";
-import openBottomImg from "@/assets/images/openBottomImg.png";
-import CustomSwiper from "@/components/CustomSwiper";
-import AfterIcon from "@/assets/images/afterIcon.png";
-import ExportIcon from "@/assets/images/exportIcon.png";
+import IconMap from "@/assets/icons/map-icon.svg?react";
+import Capsule from "@/components/Capsule";
+import CapsuleNameHeader from "@/components/CapsuleNameHeader";
 import CustomButtons from "@/components/CustomButtons";
+import CustomSwiper from "@/components/CustomSwiper";
+import { OpenedCapsule } from "@/types/server";
+import { isNull, isUndefined } from "@/utils";
+import { useMemo, useState } from "react";
+import { useParams } from "react-router";
+import MessageDetailOverlay from "./MessageDetailOverlay";
+import OpenedScreenBottom from "./OpenedScreenBottom";
 
 interface Props {
   capsule: OpenedCapsule;
 }
 const OpenedScreen = ({ capsule }: Props) => {
+  const { code } = useParams();
+  const capsuleCode = useMemo(() => (isUndefined(code) ? "" : code), [code]);
+
+  const [focusedMessageIndex, setFocusedMessageIndex] = useState<number>(0);
+  const focusedMessage = useMemo(
+    () =>
+      focusedMessageIndex < capsule.messages.length - 1
+        ? capsule.messages[focusedMessageIndex]
+        : null,
+    [capsule, focusedMessageIndex]
+  );
+
+  const goPrev = () =>
+    setFocusedMessageIndex((prev) =>
+      prev === 0 ? capsule.messages.length - 1 : prev - 1
+    );
+  const goNext = () =>
+    setFocusedMessageIndex((prev) =>
+      prev === capsule.messages.length - 1 ? 0 : prev + 1
+    );
+
+  // TODO: 맵 바텀시트 구현
+  const onClickOpenMap = () => console.log("bottom sheet open");
+
+  const [isOverlayOpen, setIsOverlayOpen] = useState<boolean>(false);
+  const openOverlay = () => setIsOverlayOpen(true);
+  const closeOverlay = () => setIsOverlayOpen(false);
+
+  const MessageIndexCapsule = () => (
+    <Capsule>
+      <p className="text-[14px] font-bold">
+        {`캡슐 ${focusedMessageIndex + 1} / `}
+        <span className="text-[#A1A1A1] font-normal">
+          {capsule.messageCount}
+        </span>
+      </p>
+    </Capsule>
+  );
+
   return (
-    <>
-      <div className="w-full h-full px-[22px] bg-primary-paper">
-        <div className="h-[54px] flex items-center justify-between mb-[31px]">
-          <div>{capsule.title}</div>
+    <div className="relative w-full h-full">
+      <div className="w-full h-full bg-primary-paper">
+        <CapsuleNameHeader
+          capsuleName={capsule.title}
+          rightButton={
+            <IconMap className="cursor-pointer" onClick={onClickOpenMap} />
+          }
+        />
 
-          <img
-            src={openMapIcon}
-            alt=""
-            className="w-[28px] h-[31px] bottom-1"
-          />
-        </div>
-
-        <div className="justify-center max-w-[94px] text-[14px] h-[32px] bg-[#E8EEF5] flex items-center shadow-[0_4px_4px_0_rgba(0,0,0,0.25)] rounded-[100px] text-[#202020] px-[18px] py-[4px] leading-[22px]">
-          캡슐 3 / <span className="ml-1 text-[#a1a1a1]"> 1</span>
-        </div>
+        <MessageIndexCapsule />
 
         <div className="h-[35%] mt-[42px]">
           <CustomSwiper></CustomSwiper>
         </div>
-        <div className="absolute bottom-0 left-0">
-          <div className="w-full h-[42px] flex justify-center px-[16px] ">
-            <div className="h-[32px] flex rounded-[16px] shadow-[0_4px_4px_0_rgba(0,0,0,0.25)] items-center relative bg-white px-[13px] ">
-              <span>{3}개</span>의 캡슐을 확인할 수 있어요!
-              <img
-                src={AfterIcon}
-                className="absolute -bottom-[22px] left-[25%] w-[40px] h-[40px]"
-              />
-            </div>
-          </div>
-          <img src={openBottomImg} alt="" className="w-full" />
-        </div>
-      </div>
-      <div className="absolute bottom-[108px] right-[22px]">
-        <img src={ExportIcon} alt="" />
+
+        <OpenedScreenBottom messageCount={capsule.messageCount} />
       </div>
 
-      <CustomButtons.BottomButton title="캡슐 채우기" onClick={() => {}} />
-    </>
+      <CustomButtons.CapsuleShareFAB code={capsuleCode} />
+      <CustomButtons.BottomButton
+        title="캡슐 자세히보기"
+        onClick={openOverlay}
+      />
+
+      {isOverlayOpen && !isNull(focusedMessage) && (
+        <MessageDetailOverlay
+          message={focusedMessage}
+          closeOverlay={closeOverlay}
+          MessageIndexCapsule={<MessageIndexCapsule />}
+          goPrev={goPrev}
+          goNext={goNext}
+        />
+      )}
+    </div>
   );
 };
 

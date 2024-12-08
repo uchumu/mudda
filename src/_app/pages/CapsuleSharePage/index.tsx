@@ -10,12 +10,12 @@ const CapsuleSharePage = () => {
   const { code } = useParams();
   const capsuleCode = useMemo(() => (isUndefined(code) ? "" : code), [code]);
   const shareUrl = useMemo(
-    () => `${domain}/capsule/${capsuleCode}`,
+    () => `${domain}/capsule/${encodeURIComponent(capsuleCode)}`,
     [capsuleCode]
   );
 
   const navigate = useNavigate();
-  const goBack = () => navigate(`/capsule/${capsuleCode}`);
+  const goBack = () => navigate(`/capsule/${encodeURIComponent(capsuleCode)}`);
   const onClickCopy = () => navigator.clipboard.writeText(shareUrl);
 
   return (
