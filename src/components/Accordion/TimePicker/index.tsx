@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo, memo, useRef } from "react";
+import { useState, useEffect, useCallback, useMemo, memo } from "react";
 
 interface WheelTimePickerProps {
   onChange?: (hours: number, minutes: number, seconds: number) => void;
@@ -73,8 +73,6 @@ const WheelTimePicker = ({
   const [minutes, setMinutes] = useState(initialValue.getMinutes());
   const [seconds, setSeconds] = useState(initialValue.getSeconds());
   const [startY, setStartY] = useState<number>(0);
-  const isMoving = useRef(false);
-
   const [isDragging, setIsDragging] = useState(false);
   const [activeWheel, setActiveWheel] = useState<
     "hours" | "minutes" | "seconds" | null
@@ -99,11 +97,11 @@ const WheelTimePicker = ({
     onChange?.(hours, minutes, seconds);
   }, [hours, minutes, seconds, onChange]);
 
-  // 시간 순환 계산
   const calculateNewValue = useCallback(
     (currentValue: number, maxValue: number, delta: number) => {
-      let newValue = currentValue + delta;
-      newValue = ((newValue % maxValue) + maxValue) % maxValue;
+      const newValue = currentValue + delta;
+      if (newValue < 0) return maxValue - 1;
+      if (newValue >= maxValue) return 0;
       return newValue;
     },
     []
@@ -136,38 +134,19 @@ const WheelTimePicker = ({
           : (e as MouseEvent).clientY;
 
       const delta = startY - clientY;
+      const deltaValue = Math.floor(delta / 20);
 
-      // 최소 이동 거리
-      if (Math.abs(delta) < 30) return;
-
-      // 이미 이동 중이면 무시
-      if (isMoving.current) return;
-      const direction = Math.sign(delta);
-
-      isMoving.current = true;
+      if (Math.abs(delta) < 10) return;
 
       if (activeWheel === "hours") {
-        setHours((prev) => {
-          const next = calculateNewValue(prev, 24, direction);
-          setStartY(clientY);
-          isMoving.current = false;
-          return next;
-        });
+        setHours((prev) => calculateNewValue(prev, 24, deltaValue));
       } else if (activeWheel === "minutes") {
-        setMinutes((prev) => {
-          const next = calculateNewValue(prev, 60, direction);
-          setStartY(clientY);
-          isMoving.current = false;
-          return next;
-        });
+        setMinutes((prev) => calculateNewValue(prev, 60, deltaValue));
       } else if (activeWheel === "seconds") {
-        setSeconds((prev) => {
-          const next = calculateNewValue(prev, 60, direction);
-          setStartY(clientY);
-          isMoving.current = false;
-          return next;
-        });
+        setSeconds((prev) => calculateNewValue(prev, 60, deltaValue));
       }
+
+      setStartY(clientY);
     },
     [isDragging, startY, activeWheel, calculateNewValue]
   );

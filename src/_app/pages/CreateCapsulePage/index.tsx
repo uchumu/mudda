@@ -4,7 +4,7 @@ import CapsuleCreateCompleteModal from "@/components/Modals/CapsuleCreateComplet
 import CapsuleCreateConfirmModal from "@/components/Modals/CapsuleCreateConfirmModal";
 import { useCapsuleMutate } from "@/queries/Capsule/useCapsuleService";
 import { Step } from "@/types/client";
-import { getSecondsFromDate } from "@/utils/formatTime";
+import { getTimeStampByDate } from "@/utils/formatTime";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import NameInputStep from "./Steps/NameInputStep";
@@ -20,7 +20,8 @@ const CreateCapsulePage = () => {
   const navigate = useNavigate();
 
   const { selectDate, setSelectDate } = useSelectDateStep();
-  const selectGoaltime = getSecondsFromDate(selectDate);
+  const selectGoaltime = getTimeStampByDate(selectDate);
+  console.log(selectGoaltime)
 
   const {
     inputName,

@@ -9,7 +9,7 @@ type Props = {
 };
 const SelectDateStep = ({ selectDate, setSelectDate }: Props) => {
   return (
-    <div className="flex-col px-[22px] overflow-auto h-[calc(100vh-58px-56px-30px)] pb-[60px]">
+    <div className="flex-col px-[22px] overflow-auto h-[calc(100vh-58px-56px-30px)]">
       <Margin H="54px" />
       <StepHeader text={`캡슐을 \n$오픈할 일시$를 선택해 주세요.`} />
       <Margin H="54px" />

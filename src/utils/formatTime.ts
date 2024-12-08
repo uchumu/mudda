@@ -1,11 +1,10 @@
 /**
- * Date 객체를 초 단위의 타임스탬프로 변환하는 함수
+ * Date 객체를 밀리초 단위의 타임스탬프로 변환하는 함수
  * @param date - 변환할 Date 객체
- * @returns 초 단위의 타임스탬프
+ * @returns 밀리초 단위의 타임스탬프
  */
-const getSecondsFromDate = (date: Date) => {
-  console.log(date)
-  return Math.floor(new Date(date).getTime() / 1000);
+const getTimeStampByDate = (date: Date) => {
+  return new Date(date).getTime();
 };
 
 /**
@@ -20,4 +19,4 @@ const getFormattedDate = (date: Date): string => {
   return `${year}년 ${month}월 ${day}일`;
 };
 
-export { getFormattedDate, getSecondsFromDate };
+export { getFormattedDate, getTimeStampByDate };
