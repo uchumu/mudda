@@ -20,7 +20,7 @@ const OpenedScreen = ({ capsule }: Props) => {
   const [focusedMessageIndex, setFocusedMessageIndex] = useState<number>(0);
   const focusedMessage = useMemo(
     () =>
-      focusedMessageIndex < capsule.messages.length - 1
+      focusedMessageIndex <= capsule.messages.length - 1
         ? capsule.messages[focusedMessageIndex]
         : null,
     [capsule, focusedMessageIndex]
