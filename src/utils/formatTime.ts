@@ -4,7 +4,6 @@
  * @returns 초 단위의 타임스탬프
  */
 const getSecondsFromDate = (date: Date) => {
-  console.log(date)
   return Math.floor(new Date(date).getTime() / 1000);
 };
 
@@ -20,4 +19,15 @@ const getFormattedDate = (date: Date): string => {
   return `${year}년 ${month}월 ${day}일`;
 };
 
-export { getFormattedDate, getSecondsFromDate };
+/**
+* 날짜가 과거 시간인지 확인
+* @param date 확인할 Date 객체
+* @returns true면 미래, false면 과거 또는 현재
+*/
+const isPastTime = (date: Date) => {
+  const currentTime = getSecondsFromDate(new Date());
+  const selectedTime = getSecondsFromDate(date);
+  return currentTime > selectedTime;
+};
+
+export { getFormattedDate, getSecondsFromDate, isPastTime };

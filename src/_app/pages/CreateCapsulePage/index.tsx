@@ -5,7 +5,7 @@ import CapsuleCreateConfirmModal from "@/components/Modals/CapsuleCreateConfirmM
 import { useCapsuleMutate } from "@/queries/Capsule/useCapsuleService";
 import { Step } from "@/types/client";
 import { getSecondsFromDate } from "@/utils/formatTime";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useNavigate } from "react-router";
 import NameInputStep from "./Steps/NameInputStep";
 import useNameInputStep from "./Steps/NameInputStep/useNameInputStep";
@@ -19,8 +19,16 @@ import useSelectMapStep from "./Steps/SelectMapStep/useSelectMapStep";
 const CreateCapsulePage = () => {
   const navigate = useNavigate();
 
-  const { selectDate, setSelectDate } = useSelectDateStep();
-  const selectGoaltime = getSecondsFromDate(selectDate);
+  const {
+    selectDate,
+    setSelectDate,
+    stepProps: selectDateStepProps,
+  } = useSelectDateStep();
+  
+  const selectGoaltime = useMemo(
+    () => getSecondsFromDate(selectDate),
+    [selectDate]
+  );
 
   const {
     inputName,
@@ -41,10 +49,7 @@ const CreateCapsulePage = () => {
       children: (
         <SelectDateStep selectDate={selectDate} setSelectDate={setSelectDate} />
       ),
-      BottomButton: {
-        onClick: () => true,
-      },
-      errorMessage: "",
+      ...selectDateStepProps,
     },
 
     {
