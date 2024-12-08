@@ -25,6 +25,7 @@ const OpenedScreen = ({ capsule }: Props) => {
         : null,
     [capsule, focusedMessageIndex]
   );
+  const handleClickThumbnail = (index: number) => setFocusedMessageIndex(index);
 
   const goPrev = () =>
     setFocusedMessageIndex((prev) =>
@@ -66,7 +67,11 @@ const OpenedScreen = ({ capsule }: Props) => {
         <MessageIndexCapsule />
 
         <div className="h-[35%] mt-[42px]">
-          <CustomSwiper></CustomSwiper>
+          <CustomSwiper
+            messages={capsule.messages}
+            openOverlay={openOverlay}
+            handleClickThumbnail={handleClickThumbnail}
+          />
         </div>
 
         <OpenedScreenBottom messageCount={capsule.messageCount} />
