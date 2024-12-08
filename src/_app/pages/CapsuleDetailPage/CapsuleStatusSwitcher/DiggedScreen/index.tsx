@@ -14,15 +14,13 @@ import { queryKeys } from "@/queries/Capsule/useCapsuleService";
 import { isUndefined } from "@/utils";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useParams } from "react-router";
 
 interface Props {
   capsule: DiggedCapsule;
 }
 
 const DiggedScreen = ({ capsule }: Props) => {
-  const navigate = useNavigate();
-
   const [percent, setPercent] = useState<number>(0);
 
   const { code } = useParams();
