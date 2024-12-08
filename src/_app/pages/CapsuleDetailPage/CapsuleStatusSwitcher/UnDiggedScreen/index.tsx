@@ -1,4 +1,6 @@
 import { useLoadingOverlay } from "@/_app/Providers/loadingOverlay";
+import IconMap from "@/assets/icons/map-icon.svg?react";
+import CapsuleNameHeader from "@/components/CapsuleNameHeader";
 import CustomButtons from "@/components/CustomButtons";
 import CapsuleDigModal from "@/components/Modals/CapsuleDigModal";
 import { useDigMutate } from "@/queries/Capsule/useCapsuleService";
@@ -47,9 +49,17 @@ const UnDiggedScreen = ({ capsule }: Props) => {
   const goSharePage = () =>
     navigate(`/capsule/${encodeURIComponent(capsuleCode)}/share`);
 
+  // TODO: 맵 바텀시트 구현
+  const onClickOpenMap = () => console.log("bottom sheet open");
+
   return (
     <>
-      {capsule.status}
+      <CapsuleNameHeader
+        capsuleName={capsule.title}
+        rightButton={
+          <IconMap className="cursor-pointer" onClick={onClickOpenMap} />
+        }
+      />
       <CustomButtons.BottomButton
         title="캡슐 채우기"
         onClick={() =>

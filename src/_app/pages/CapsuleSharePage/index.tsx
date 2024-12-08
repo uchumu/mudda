@@ -37,6 +37,7 @@ const CapsuleSharePage = () => {
           <div className="relative w-full max-w-[300px] h-[54px]">
             <input
               value={shareUrl}
+              onChange={() => {}}
               className="w-full h-full px-[18px] pr-[52px] text-[16px] border-[1px] rounded-[15px] focus:border-primary-main focus:outline-none"
             />
             <div
