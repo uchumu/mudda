@@ -1,4 +1,5 @@
 import CapsuleDetailPage from "@/_app/pages/CapsuleDetailPage";
+import CapsuleSharePage from "@/_app/pages/CapsuleSharePage";
 import CreateCapsulePage from "@/_app/pages/CreateCapsulePage";
 import CreateMessagePage from "@/_app/pages/CreateMessagePage";
 import LandingPage from "@/_app/pages/LandingPage";
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
   {
     path: "/capsule/:code",
     element: <CapsuleDetailPage />,
+  },
+  {
+    path: "/capsule/:code/share",
+    element: <CapsuleSharePage />,
   },
   {
     path: "/capsule/:code/message/create",
