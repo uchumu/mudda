@@ -5,7 +5,6 @@ import CustomSwiper from "@/components/CustomSwiper";
 import AfterIcon from "@/assets/images/afterIcon.png";
 import ExportIcon from "@/assets/images/exportIcon.png";
 import CustomButtons from "@/components/CustomButtons";
-import { useEffect } from "react";
 
 interface Props {
   capsule: OpenedCapsule;
