@@ -4,7 +4,6 @@
  * @returns 초 단위의 타임스탬프
  */
 const getSecondsFromDate = (date: Date) => {
-  console.log(date)
   return Math.floor(new Date(date).getTime() / 1000);
 };
 

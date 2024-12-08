@@ -138,7 +138,7 @@ const WheelTimePicker = ({
       const delta = startY - clientY;
 
       // 최소 이동 거리
-      if (Math.abs(delta) < 30) return;
+      if (Math.abs(delta) < 15) return;
 
       // 이미 이동 중이면 무시
       if (isMoving.current) return;
@@ -178,6 +178,7 @@ const WheelTimePicker = ({
   }, []);
 
   const handleTouchEnd = useCallback(() => {
+    
     setIsDragging(false);
     setActiveWheel(null);
   }, []);
