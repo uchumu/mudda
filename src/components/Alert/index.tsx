@@ -16,6 +16,13 @@ const Alert = ({ message, onConfirm }: Props) => {
     setProp(true);
   }, []);
 
+  const handleAlert = () => {
+    setProp(false);
+    setTimeout(() => {
+      onConfirm();
+    }, 300);
+  };
+
   return (
     <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center z-[9] bg-[#000] bg-opacity-30">
       <CSSTransition
@@ -35,7 +42,7 @@ const Alert = ({ message, onConfirm }: Props) => {
 
           <CustomButtons.CommonButton
             title="확인"
-            onClick={onConfirm}
+            onClick={handleAlert}
           ></CustomButtons.CommonButton>
         </div>
       </CSSTransition>

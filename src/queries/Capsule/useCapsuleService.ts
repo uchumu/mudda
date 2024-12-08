@@ -1,7 +1,7 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import CapsuleService from "./CapsuleService";
 
-const queryKeys = {
+export const queryKeys = {
   capsule: ({ code }: { code: string }) => ["capsule", code] as const,
 };
 
@@ -13,3 +13,21 @@ export const useCapsuleQuery = ({ code }: { code: string }) =>
 
 export const useCapsuleMutate = () =>
   useMutation({ mutationFn: CapsuleService.postCapsule });
+
+interface UseDigMutateProps {
+  code: string;
+}
+export const useDigMutate = ({ code }: UseDigMutateProps) => {
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    {
+      mutationFn: CapsuleService.putCapsuleDig,
+      onSuccess: () =>
+        queryClient.invalidateQueries({
+          queryKey: queryKeys.capsule({ code }),
+        }),
+    },
+    queryClient
+  );
+};
