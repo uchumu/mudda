@@ -1,10 +1,150 @@
 import { DiggedCapsule } from "@/types/server";
+import openMapIcon from "@/assets/images/openMapIcon.png";
+import CircleProgress from "@/components/Progress/CircleProgress";
+import AfterIcon from "@/assets/images/afterIcon.png";
+import ExportIcon from "@/assets/images/exportIcon.png";
+import CustomButtons from "@/components/CustomButtons";
+import CapsuleIcons from "@/assets/images/capsuleIcons.png";
+import DateIcons from "@/assets/images/dateIcons.png";
+
+import { useInterval } from "@/hooks/useInterval";
+import { parseGoalTime, formatTimestampToDate } from "@/assets/ts/common.ts";
+import { useEffect, useMemo, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { useNavigate, useParams } from "react-router";
+import { isUndefined } from "@/utils";
+import { queryKeys } from "@/queries/Capsule/useCapsuleService";
 
 interface Props {
   capsule: DiggedCapsule;
 }
+
 const DiggedScreen = ({ capsule }: Props) => {
-  return <>{capsule.status}</>;
+  const navigate = useNavigate();
+
+  const [percent, setPercent] = useState<number>(0);
+
+  const { code } = useParams();
+  const capsuleCode = useMemo(() => (isUndefined(code) ? "" : code), [code]);
+
+  const queryClient = useQueryClient();
+
+  const calculatePercent = (capsuleArgs: DiggedCapsule) => {
+    const nowTime = Math.round(new Date().getTime() / 1000);
+
+    const allDuration = capsuleArgs.goalTime - capsuleArgs.createTime; // 전체 기간
+
+    const nowDuration = nowTime - capsuleArgs.createTime; // 현재까지 경과 시간
+
+    const percentage = Math.min(
+      Math.max(Math.round((nowDuration * 100) / allDuration), 0),
+      100
+    ); // 퍼센트 (0 ~ 100 사이로 제한)
+
+    if (percent === 100) {
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.capsule({ code: capsuleCode }),
+      });
+
+      window.location.reload();
+
+      return;
+    }
+
+    setPercent(percentage);
+  };
+
+  const goSharePage = () =>
+    navigate(`/capsule/${encodeURIComponent(capsuleCode)}/share`);
+
+  useEffect(() => {
+    calculatePercent(capsule);
+  }, []);
+
+  useInterval(() => {
+    calculatePercent(capsule);
+  }, 1000);
+
+  return (
+    <>
+      <div className="w-full h-full px-[22px] bg-primary-paper">
+        <div className="h-[54px] flex items-center justify-between mb-[31px] text-[18px]">
+          <div>{capsule.title}</div>
+
+          <img
+            src={openMapIcon}
+            alt=""
+            className="w-[28px] h-[31px] bottom-1"
+          />
+        </div>
+
+        <div className="relative mt-[18px]">
+          <div className="w-full h-[calc(100vh-54px-31px)]">
+            <div className="flex">
+              <div className="w-full h-[42px] flex justify-center px-[16px] ">
+                <div className="h-[32px] flex rounded-[16px] shadow-[0_4px_4px_0_rgba(0,0,0,0.25)] items-center relative bg-white px-[13px] ">
+                  오픈까지
+                  <span className="mx-1 font-bold text-primary-main">
+                    {parseGoalTime(capsule.goalTime).days}일
+                  </span>
+                  남았어요!
+                  <img
+                    src={AfterIcon}
+                    className="absolute -bottom-[22px] left-[25%] w-[40px] h-[40px]"
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="bg-white rounded-[16px] shadow-[0_4px_4px_0_rgba(0,0,0,0.07)] w-full h-[221px] mt-[66px] flex flex-col items-center justify-between px-[12px] pb-[12px]">
+              <div>
+                <CircleProgress percent={percent}></CircleProgress>
+              </div>
+              <div className="mt-[56px] text-[18px] leading-[32px] text-primary-main font-bold">
+                {capsule.title}
+              </div>
+              <div className="flex gap-[10px] w-full">
+                <div className="flex flex-col bg-[#F8F8F8] rounded-[16px] h-[86px] w-full items-center justify-center relative">
+                  <div className="absolute -top-[16px] left-[16px] w-[32px] h-[32px] bg-white rounded-full flex justify-center items-center">
+                    <img src={CapsuleIcons} alt="" className="w-[21px]" />
+                  </div>
+
+                  <div className="text-[#A1A1A1] text-[14px] ">캡슐 개수</div>
+                  <div className="text-[#202020] text-[18px] font-bold">
+                    {capsule.messageCount}개
+                  </div>
+                </div>
+
+                <div className=" relative flex flex-col text-[14px] bg-[#F8F8F8] rounded-[16px] h-[86px] w-full items-center justify-center">
+                  <div className="absolute -top-[16px] left-[16px] w-[32px] h-[32px] bg-white rounded-full flex justify-center items-center">
+                    <img src={DateIcons} alt="" className="w-[14px]" />
+                  </div>
+                  <div className="text-[#A1A1A1] text-[14px]">
+                    캡슐 생성 일자
+                  </div>
+                  <div className="text-[#202020] text-[18px] font-bold">
+                    {formatTimestampToDate(capsule.createTime)}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        onClick={goSharePage}
+        className="absolute bottom-[108px] right-[22px] cursor-pointer"
+      >
+        <img src={ExportIcon} alt="" />
+      </div>
+      <CustomButtons.BottomButton
+        title={`${parseGoalTime(capsule.goalTime).days}일 ${
+          parseGoalTime(capsule.goalTime).hours
+        }시간 ${parseGoalTime(capsule.goalTime).minutes}분 후 오픈`}
+        disabled={false}
+        onClick={() => {}}
+      />
+    </>
+  );
 };
 
 export default DiggedScreen;
