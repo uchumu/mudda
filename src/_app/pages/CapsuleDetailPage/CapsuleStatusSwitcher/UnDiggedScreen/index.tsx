@@ -45,8 +45,6 @@ const UnDiggedScreen = ({ capsule }: Props) => {
   // TODO: 파묻기 시도 후 콜백 설정(에러메시지 분기처리)
   useEffect(() => console.log(isDigCompleteModalOpen, isDigFailModalOpen));
 
-  const goSharePage = () => navigate(`/capsule/${encodeURIComponent(capsuleCode)}/share`);
-
   const [isMapShown, setIsMapShown] = useState<boolean>(false);
   const onClickOpenMap = () => setIsMapShown(true);
 
@@ -63,7 +61,7 @@ const UnDiggedScreen = ({ capsule }: Props) => {
           type: "secondary",
         }}
       />
-      <CustomButtons.FAB onClick={goSharePage} />
+      <CustomButtons.CapsuleShareFAB code={capsuleCode} />
       {isDigModalOpen && <CapsuleDigModal inputPassword={inputPassword} handleInputPassword={handleInputPassword} hideModal={hideDigModal} onClick={digModalCallback} />}
     </>
   );
