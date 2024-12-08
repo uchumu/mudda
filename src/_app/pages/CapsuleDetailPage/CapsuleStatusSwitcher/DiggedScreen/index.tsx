@@ -58,9 +58,6 @@ const DiggedScreen = ({ capsule }: Props) => {
   const [isMapShown, setIsMapShown] = useState<boolean>(false);
   const onClickOpenMap = () => setIsMapShown(true);
 
-  const goSharePage = () =>
-    navigate(`/capsule/${encodeURIComponent(capsuleCode)}/share`);
-
   useEffect(() => {
     calculatePercent(capsule);
   }, []);
