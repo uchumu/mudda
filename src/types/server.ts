@@ -17,12 +17,16 @@ export interface Message {
 /**
  * Capsule
  */
-type Coordinate = [number, number];
+// type Coordinate = {
+//   x: number;
+//   y: number;
+// };
 // NOTE: [위도, 경도] 입니다. 원래는 위도 = 수직, 경도 = 수평 값에 가깝기 때문에
 // x, y형태라고 하면 [경도, 위도]가 적절해보이나 어쩌다보니 이렇게 되었네요
 
 interface Map {
-  coordinate: Coordinate;
+  x: number;
+  y: number;
 }
 interface CapsuleBase {
   capsuleDesignId: number;
