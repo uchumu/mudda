@@ -1,12 +1,11 @@
-import { ResponseType } from "@/types/server";
+import { backendUrl } from "@/constants/environments";
 import Service from "../Service";
 
 class MessageService extends Service {
   postMessage = (formData: FormData) =>
-    this.http.post<ResponseType<string>>(`/capsule/message`, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
+    fetch(backendUrl + "/api/capsule/message", {
+      method: "POST",
+      body: formData,
     });
 }
 
