@@ -1,4 +1,4 @@
-export interface responseType<T> {
+export interface ResponseType<T> {
   success: boolean;
   code: number;
   message: string;
@@ -31,15 +31,15 @@ interface CapsuleBase {
   goalTime: number;
   messageCount: number;
 }
-interface UndiggedCapsule extends CapsuleBase {
+export interface UndiggedCapsule extends CapsuleBase {
   status: "undigged";
 }
-interface DiggedCapsule extends CapsuleBase {
+export interface DiggedCapsule extends CapsuleBase {
   status: "digged";
   createTime: number;
 }
-interface ClosedCapsule extends CapsuleBase {
+export interface OpenedCapsule extends CapsuleBase {
   status: "opened";
   message: Message[];
 }
-export type Capsule = UndiggedCapsule | DiggedCapsule | ClosedCapsule;
+export type Capsule = UndiggedCapsule | DiggedCapsule | OpenedCapsule;
