@@ -24,7 +24,7 @@ export default function PickerAccordion({ selected, setSelected }: Props) {
       setSelected((prev: Date) => {
         const newDate = new Date(prev);
         newDate.setHours(hours);
-        newDate.setMinutes(minutes) ;
+        newDate.setMinutes(minutes);
         newDate.setSeconds(seconds);
         return newDate;
       });
@@ -42,10 +42,7 @@ export default function PickerAccordion({ selected, setSelected }: Props) {
         label="시간"
         formatValue={selected ? formatTime(selected) : "00:00:00"}
       >
-        <WheelTimePicker
-          onChange={handleTimeChange}
-          initialValue={selected}
-        />
+        <WheelTimePicker onChange={handleTimeChange} initialValue={selected} />
       </Accordion.Section>
     </Accordion>
   );
