@@ -15,7 +15,7 @@ class CapsuleService extends Service {
     password: string;
   }) => this.http.post<ResponseType<string>>(`/capsule`, body);
   putCapsuleDig = (body: { code: string; password: string }) =>
-    this.http.put<ResponseType<string>>(`capsule`, body);
+    this.http.put<ResponseType<string>>(`/capsule`, body);
 }
 
 export default new CapsuleService();

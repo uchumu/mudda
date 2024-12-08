@@ -17,8 +17,11 @@ const UnDiggedScreen = ({ capsule }: Props) => {
 
   const { setGlobalLoading } = useLoadingOverlay();
   const [isDigModalOpen, setIsDigModalOpen] = useState<boolean>(false);
+  const openDigModal = () => {
+    setIsDigModalOpen(true);
+    setInputPassword("");
+  };
   const hideDigModal = () => setIsDigModalOpen(false);
-  const onClickDig = () => setIsDigModalOpen(true);
   const [inputPassword, setInputPassword] = useState<string>("");
   const handleInputPassword = (newPassword: string) =>
     setInputPassword(newPassword);
@@ -53,7 +56,7 @@ const UnDiggedScreen = ({ capsule }: Props) => {
         }
         leftButton={{
           title: "캡슐 파묻기",
-          onClick: onClickDig,
+          onClick: openDigModal,
           type: "secondary",
         }}
       />
