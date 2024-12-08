@@ -141,6 +141,7 @@ const DiggedScreen = ({ capsule }: Props) => {
       >
         <img src={ExportIcon} alt="" />
       </div>
+      {/* TODO: 공통 컴포넌트 활용한 마크업으로 수정 필요 */}
 
       {isMapShown && (
         <MapBottomSheet
