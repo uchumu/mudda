@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import CapsuleIcon from "@/assets/images/capsuleIcon.png";
 
 interface Props {
