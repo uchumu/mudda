@@ -11,9 +11,15 @@ import PasswordInputStep from "./Steps/PasswordInputStep";
 import usePasswordInputStep from "./Steps/PasswordInputStep/usePasswordInputStep";
 import SelectMapStep from "./Steps/SelectMapStep";
 import useSelectMapStep from "./Steps/SelectMapStep/useSelectMapStep";
+import useSelectDateStep from "./Steps/SelectDateStep/useSelectDateStep";
+import SelectDateStep from "./Steps/SelectDateStep";
+import { getTimeStampByDate } from "@/utils/formatTime";
 
 const CreateCapsulePage = () => {
   const navigate = useNavigate();
+
+  const { selectDate, setSelectDate } = useSelectDateStep();
+  const selectGoaltime = getTimeStampByDate(selectDate);
 
   const {
     inputName,
@@ -34,11 +40,13 @@ const CreateCapsulePage = () => {
 
   const steps: Array<Step> = [
     {
-      children: <div>step 1</div>,
+      children: (
+        <SelectDateStep selectDate={selectDate} setSelectDate={setSelectDate} />
+      ),
       BottomButton: {
         onClick: () => true,
       },
-      errorMessage: "잘못된 입력입니다.",
+      errorMessage: "",
     },
 
     {
@@ -84,7 +92,7 @@ const CreateCapsulePage = () => {
         x: 0,
         y: 0,
       },
-      goalTime: 1733599233,
+      goalTime: selectGoaltime,
       capsuleDesignId: 1,
       password: inputPassword,
     })
