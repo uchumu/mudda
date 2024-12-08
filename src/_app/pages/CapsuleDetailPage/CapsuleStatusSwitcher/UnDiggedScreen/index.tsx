@@ -17,8 +17,11 @@ const UnDiggedScreen = ({ capsule }: Props) => {
 
   const { setGlobalLoading } = useLoadingOverlay();
   const [isDigModalOpen, setIsDigModalOpen] = useState<boolean>(false);
+  const openDigModal = () => {
+    setIsDigModalOpen(true);
+    setInputPassword("");
+  };
   const hideDigModal = () => setIsDigModalOpen(false);
-  const onClickDig = () => setIsDigModalOpen(true);
   const [inputPassword, setInputPassword] = useState<string>("");
   const handleInputPassword = (newPassword: string) =>
     setInputPassword(newPassword);
@@ -41,7 +44,8 @@ const UnDiggedScreen = ({ capsule }: Props) => {
   // TODO: 파묻기 시도 후 콜백 설정(에러메시지 분기처리)
   useEffect(() => console.log(isDigCompleteModalOpen, isDigFailModalOpen));
 
-  const goSharePage = () => console.log("WIP");
+  const goSharePage = () =>
+    navigate(`/capsule/${encodeURIComponent(capsuleCode)}/share`);
 
   return (
     <>
@@ -53,7 +57,7 @@ const UnDiggedScreen = ({ capsule }: Props) => {
         }
         leftButton={{
           title: "캡슐 파묻기",
-          onClick: onClickDig,
+          onClick: openDigModal,
           type: "secondary",
         }}
       />
