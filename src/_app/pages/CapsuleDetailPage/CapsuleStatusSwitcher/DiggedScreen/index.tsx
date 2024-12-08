@@ -68,7 +68,7 @@ const DiggedScreen = ({ capsule }: Props) => {
   return (
     <>
       <div className="w-full h-full px-[22px] bg-primary-paper">
-        <div className="h-[54px] flex items-center justify-between mb-[31px]">
+        <div className="h-[54px] flex items-center justify-between mb-[31px] text-[18px]">
           <div>{capsule.title}</div>
 
           <img
