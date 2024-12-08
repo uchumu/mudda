@@ -61,6 +61,9 @@ const UnDiggedScreen = ({ capsule }: Props) => {
           type: "secondary",
         }}
       />
+
+      {isDigModalOpen && <CapsuleDigModal inputPassword={inputPassword} handleInputPassword={handleInputPassword} hideModal={hideDigModal} onClick={digModalCallback} />}
+
       <CustomButtons.CapsuleShareFAB code={capsuleCode} />
       {isDigModalOpen && <CapsuleDigModal inputPassword={inputPassword} handleInputPassword={handleInputPassword} hideModal={hideDigModal} onClick={digModalCallback} />}
     </>
