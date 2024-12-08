@@ -22,8 +22,11 @@ const MessageDetailCard = ({ message }: Props) => {
         />
         {hasImage && (
           <>
-            <div className="w-full h-[256px] rounded-[16px] bg-[#E9E9E9] mb-[22px]">
-              <img src={imageSrc} className="rounded-[16px] object-contain" />
+            <div className="w-full h-[256px] rounded-[16px] bg-[#E9E9E9] mb-[22px] flex items-center">
+              <img
+                src={imageSrc}
+                className="w-full h-full rounded-[16px] object-contain"
+              />
             </div>
             <div className="h-[22px]" />
           </>
