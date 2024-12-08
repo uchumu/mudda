@@ -11,14 +11,11 @@ interface Props {
   capsule: OpenedCapsule;
 }
 const OpenedScreen = ({ capsule }: Props) => {
-  useEffect(() => {
-    console.log(capsule);
-  }, []);
   return (
     <>
       <div className="w-full h-full px-[22px] bg-primary-paper">
         <div className="h-[54px] flex items-center justify-between mb-[31px]">
-          <div>캡슐이름이름</div>
+          <div>{capsule.title}</div>
 
           <img
             src={openMapIcon}
