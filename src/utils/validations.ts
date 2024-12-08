@@ -7,3 +7,6 @@ export const getInputCapsuleNameValid = (name: string) =>
   typeof name === "string";
 export const getInputCapsulePasswordValid = (password: string) =>
   typeof password === "string";
+export const getInputCapsuleTextValid = (text: string) =>
+  typeof text === "string";
+

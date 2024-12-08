@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import CapsuleService from "./CapsuleService";
 
-const queryKeys = {
+export const queryKeys = {
   capsule: ({ code }: { code: string }) => ["capsule", code] as const,
 };
 

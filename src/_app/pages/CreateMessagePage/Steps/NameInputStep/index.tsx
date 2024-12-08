@@ -8,9 +8,9 @@ interface Props {
 const NameInputStep = ({ name, setName }: Props) => {
   return (
     <div className="flex-col px-[22px]">
-      <div className="h-[54px]" />
-      <StepHeader text={`함께할 캡슐에\n$이름$을 붙여보세요.`} />
-      <div className="h-[54px]" />
+      <div className="h-[10px]" />
+      <StepHeader text={`캡슐에 입력될\n$이름$을 작성해 주세요.`} />
+      <div className="h-[42px]" />
       <CustomInput
         label="캡슐 이름"
         value={name}
