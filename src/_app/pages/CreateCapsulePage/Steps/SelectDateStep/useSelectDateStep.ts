@@ -1,4 +1,4 @@
-import { isPastTime } from "@/utils/formatTime";
+import { getIsPastTime } from "@/utils/formatTime";
 import { useMemo, useState } from "react";
 
 const useSelectDateStep = () => {
@@ -11,7 +11,7 @@ const useSelectDateStep = () => {
   });
 
   const buttonDisabled = useMemo(() => {
-    const valid = isPastTime(selectDate);
+    const valid = getIsPastTime(selectDate);
     return valid;
   }, [selectDate]);
 

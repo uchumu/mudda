@@ -24,10 +24,10 @@ const getFormattedDate = (date: Date): string => {
 * @param date 확인할 Date 객체
 * @returns true면 미래, false면 과거 또는 현재
 */
-const isPastTime = (date: Date) => {
+const getIsPastTime = (date: Date) => {
   const currentTime = getSecondsFromDate(new Date());
   const selectedTime = getSecondsFromDate(date);
   return currentTime > selectedTime;
 };
 
-export { getFormattedDate, getSecondsFromDate, isPastTime };
+export { getFormattedDate, getSecondsFromDate, getIsPastTime };
