@@ -10,14 +10,9 @@ import { isUndefined } from "@/utils";
 import { useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 
-import UndiggedImage from "@/assets/images/undiggedImage.png";
-import UndiggedImage1 from "@/assets/images/undiggedImage1.png";
-import UndiggedImage2 from "@/assets/images/undiggedImage2.png";
-import UndiggedImage3 from "@/assets/images/undiggedImage3.png";
-import UndiggedImage4 from "@/assets/images/undiggedImage4.png";
-import UndiggedImage5 from "@/assets/images/undiggedImage5.png";
 import useAlert from "@/hooks/useAlert";
 import useToast from "@/hooks/useToast";
+import CapsuleMessageCount from "./CaspuleMessageCount";
 
 interface Props {
   capsule: UndiggedCapsule;
@@ -81,56 +76,9 @@ const UnDiggedScreen = ({ capsule }: Props) => {
           <IconMap className="cursor-pointer" onClick={onClickOpenMap} />
         }
       />
-      {isMapShown && (
-        <MapBottomSheet
-          setIsShown={setIsMapShown}
-          coordinateX={capsule.map.x}
-          coordinateY={capsule.map.y}
-        />
-      )}
-      <div className="w-full h-[calc(100vh-54px-56px-30px)] flex flex-col justify-center">
-        <div className="justify-around w-full flex font-bold text-[22px] leading-[32px] flex-col mb-4">
-          <div className="flex w-full justify-center">
-            <span className="text-primary-main">캡슐 채우기</span>를 통해
-          </div>
+      <CapsuleMessageCount messageCount={capsule.messageCount} />
 
-          <div className="flex w-full justify-center">
-            더 많은 추억을 쌓으세요!
-          </div>
-        </div>
-
-        {capsule.messageCount === 0 && (
-          <img className="w-full object-contain" src={UndiggedImage} alt="" />
-        )}
-        {capsule.messageCount === 1 && (
-          <img className="w-full object-contain" src={UndiggedImage1} alt="" />
-        )}
-        {capsule.messageCount === 2 && (
-          <img className="w-full object-contain" src={UndiggedImage2} alt="" />
-        )}
-        {capsule.messageCount === 3 && (
-          <img className="w-full object-contain" src={UndiggedImage3} alt="" />
-        )}
-        {capsule.messageCount === 4 && (
-          <img className="w-full object-contain" src={UndiggedImage4} alt="" />
-        )}
-        {capsule.messageCount >= 5 && (
-          <img className="w-full object-contain" src={UndiggedImage5} alt="" />
-        )}
-
-        <div className="mt-4">
-          <div className="items-center text-[18px] leading-[26px] w-full flex flex-col">
-            <div>
-              현재까지{" "}
-              <span className="text-primary-main font-bold ">
-                {capsule.messageCount}개
-              </span>
-              의
-            </div>
-            <div>캡슐이 채워졌습니다.</div>
-          </div>
-        </div>
-      </div>
+      <CustomButtons.CapsuleShareFAB code={capsuleCode} />
       <CustomButtons.BottomButton
         title="캡슐 채우기"
         onClick={() =>
@@ -151,8 +99,13 @@ const UnDiggedScreen = ({ capsule }: Props) => {
           onClick={digModalCallback}
         />
       )}
-
-      <CustomButtons.CapsuleShareFAB code={capsuleCode} />
+      {isMapShown && (
+        <MapBottomSheet
+          setIsShown={setIsMapShown}
+          coordinateX={capsule.map.x}
+          coordinateY={capsule.map.y}
+        />
+      )}
     </>
   );
 };
