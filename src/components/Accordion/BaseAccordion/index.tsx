@@ -5,6 +5,7 @@ import AccordionChevron from "./AccordionChevron";
 import { AccordionProps, AccordionSectionProps } from "./types";
 
 import { AccordionContext, useAccordion } from "./useAcordionContext";
+import clsx from "clsx";
 
 /**
  * @name Accordion
@@ -50,15 +51,23 @@ const Section = ({
 }: AccordionSectionProps) => {
   const { activeSection, setActiveSection } = useAccordion();
   const isActive = activeSection === id;
+  
+  const sharedRounded = "rounded-[16px]";
+  const sharedBg = "bg-[#F8F8F8]";
 
   return (
     <div className="flex flex-col gap-[10px] mb-[26px]">
       <p className="font-pretendard text-[14px] font-normal leading-[16.8px] text-left underline-offset-[from-font] decoration-skip-ink-none">
         {label}
       </p>
-      <div>
+      {/* 아코디언 트리거 관련 */}
+      <div className={clsx(isActive && [sharedBg, sharedRounded])}>
         <button
-          className="w-full py-[20px] px-[24px] rounded-[15px] h-[60px] flex items-center justify-between bg-[#F8F8F8]"
+          className={clsx(
+            "w-full py-[20px] px-[24px] h-[60px]",
+            "flex items-center justify-between",
+            !isActive && [sharedBg, sharedRounded]
+          )}
           onClick={() => setActiveSection(isActive ? " " : id)}
         >
           <span className="font-[400] text-[16px] leading-[19.2px]">
@@ -66,7 +75,22 @@ const Section = ({
           </span>
           <AccordionChevron isActive={isActive} />
         </button>
-        {isActive && <div>{children}</div>}
+        {/* 아코디언 내부 콘텐츠 관련 */}
+        <div
+          className={clsx(
+            "transition-[max-height] duration-300 ease-out overflow-visible",
+            isActive ? "max-h-96" : "max-h-0"
+          )}
+        >
+          <div className={clsx(
+            "bg-white shadow-[0_4px_10px_rgba(0,0,0,0.05)]",
+            sharedRounded,
+            "relative z-0",
+            !isActive && "hidden"
+          )}>
+            {children}
+          </div>
+        </div>
       </div>
     </div>
   );
