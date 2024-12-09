@@ -6,17 +6,6 @@
 
 우리들의 추억을 무따, **mudda** 프론트엔드 레포지토리입니다.
 
-## 테오의 스프린트 18기 11조
-
-|닉네임|포지션|Link|
-|---|---|---|
-|조디|디자이너||
-|후니|BE|[깃허브](https://github.com/orgs/uchumu/people/Gem-o-b)|
-|**브릭스**|**FE(프로젝트 리더)**|[깃허브](https://github.com/orgs/uchumu/people/bunzzeok)|
-|바삭|FE|[깃허브](https://github.com/orgs/uchumu/people/yangBasak)|
-|덕춘|FE|[깃허브](https://github.com/orgs/uchumu/people/Minsoek96)|
-|쟌|FE|[깃허브](https://github.com/orgs/uchumu/people/bbbjihan)|
-
 # 스크립트
 
 - 자세한 내용은 `package.json`의 `"scripts"`에서 확인하실 수 있습니다.
