@@ -1,4 +1,5 @@
 import IconMap from "@/assets/icons/map-icon.svg?react";
+import { MapBottomSheet } from "@/components/BottomSheet";
 import Capsule from "@/components/Capsule";
 import CapsuleNameHeader from "@/components/CapsuleNameHeader";
 import CustomButtons from "@/components/CustomButtons";
@@ -36,12 +37,12 @@ const OpenedScreen = ({ capsule }: Props) => {
       prev === capsule.messages.length - 1 ? 0 : prev + 1
     );
 
-  // TODO: 맵 바텀시트 구현
-  const onClickOpenMap = () => console.log("bottom sheet open");
-
   const [isOverlayOpen, setIsOverlayOpen] = useState<boolean>(false);
   const openOverlay = () => setIsOverlayOpen(true);
   const closeOverlay = () => setIsOverlayOpen(false);
+
+  const [isMapShown, setIsMapShown] = useState<boolean>(false);
+  const onClickOpenMap = () => setIsMapShown(true);
 
   const MessageIndexCapsule = () => (
     <Capsule>
@@ -90,6 +91,14 @@ const OpenedScreen = ({ capsule }: Props) => {
           MessageIndexCapsule={<MessageIndexCapsule />}
           goPrev={goPrev}
           goNext={goNext}
+        />
+      )}
+
+      {isMapShown && (
+        <MapBottomSheet
+          setIsShown={setIsMapShown}
+          coordinateX={capsule.map.x}
+          coordinateY={capsule.map.y}
         />
       )}
     </div>

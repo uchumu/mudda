@@ -63,7 +63,7 @@ const MessageThumbnail = ({ message }: MessageThumbnailProps) => {
   return (
     <div
       className={clsx(
-        "flex w-full h-[90%] bg-white rounded-[16px] px-[12px] py-[12px]",
+        "flex w-full h-[90%] bg-white rounded-[16px] px-[12px] py-[12px] shadow-[0_0_15px_0_rgba(0,0,0,0.08)]",
         hasImage && "pb-[40px]"
       )}
       style={{

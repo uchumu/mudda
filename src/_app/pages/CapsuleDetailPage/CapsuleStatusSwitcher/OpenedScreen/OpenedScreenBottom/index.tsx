@@ -7,7 +7,7 @@ interface Props {
 const OpenedScreenBottom = ({ messageCount }: Props) => (
   <div className="absolute bottom-0 left-0">
     <div className="w-full h-[42px] flex justify-center px-[16px] ">
-      <div className="h-[32px] flex rounded-[16px] shadow-[0_4px_4px_0_rgba(0,0,0,0.25)] items-center relative bg-white px-[13px] ">
+      <div className="h-[32px] flex rounded-[16px] shadow-[0_0_15px_0_rgba(0,0,0,0.08)] items-center relative bg-white px-[13px]">
         <span className="text-primary-main font-bold">{messageCount}개</span>
         의 캡슐을 확인할 수 있어요!
         <img

@@ -1,10 +1,10 @@
-import { DayPicker } from "react-day-picker";
 import { ko } from "date-fns/locale";
+import { DayPicker } from "react-day-picker";
 
-import "react-day-picker/style.css";
-import "./index.css";
 import { useAccordion } from "@/components/Accordion/BaseAccordion/useAcordionContext";
 import { Dispatch, SetStateAction } from "react";
+import "react-day-picker/style.css";
+import "./index.css";
 
 interface Props {
   dataValue: Date;
@@ -13,7 +13,7 @@ interface Props {
 
 /**데이트 선택 컴포넌트 */
 export default function DatePicker({ dataValue, setDataValue }: Props) {
-  //TODO : 좋은 방법
+  // TODO: 좋은 방법
   const { setActiveSection } = useAccordion();
 
   const formatYearMonthKorean = (month: Date) => {
@@ -27,7 +27,7 @@ export default function DatePicker({ dataValue, setDataValue }: Props) {
     setActiveSection("time");
   };
 
-  //이전 날짜 차단
+  // 이전 날짜 차단
   const disabledDays = {
     before: new Date(),
   };

@@ -15,7 +15,7 @@ const MessageDetailCard = ({ message }: Props) => {
 
   return (
     <div className="w-full flex-1 flex flex-col px-[22px]">
-      <div className="relative p-[12px] w-full flex-1 flex flex-col backdrop:rounded-[16px]">
+      <div className="relative p-[12px] w-full flex-1 flex flex-col rounded-[16px] shadow-[0_0_15px_0_rgba(0,0,0,0.05)]">
         <img
           src={overlaySrc}
           className="absolute top-[-27px] right-[20px] w-[42px] h-[31px]"
@@ -31,9 +31,9 @@ const MessageDetailCard = ({ message }: Props) => {
             <div className="h-[22px]" />
           </>
         )}
-        <p className="text-[16px] font-bold">{message.userName}</p>
+        <p className="text-[16px] font-bold px-[12px]">{message.userName}</p>
         <div className="h-[14px]" />
-        <div className="w-full h-[calc(100vh-54px-20px-32px-42px-12px-256px-22px-24px-14px-12px-38px-54px)] overflow-y-auto">
+        <div className="w-full px-[12px] h-[calc(100vh-54px-20px-32px-42px-12px-256px-22px-24px-14px-12px-38px-54px)] overflow-y-auto">
           <p className="text-[14px]">{message.text}</p>
         </div>
       </div>

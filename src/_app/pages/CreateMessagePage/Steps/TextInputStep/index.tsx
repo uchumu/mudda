@@ -14,7 +14,7 @@ const TextInputStep = ({ text, setText }: Props) => {
       <CustomTextArea
         value={text}
         setValue={setText}
-        placeholder="캡슐에 이름을 붙여주세요."
+        placeholder="텍스트를 입력해 주세요."
         mountFocus
       />
     </div>

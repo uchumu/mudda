@@ -1,6 +1,7 @@
 import { useLoadingOverlay } from "@/_app/Providers/loadingOverlay";
 import IconPlus from "@/assets/icons/plus-icon.svg?react";
 import StepHeader from "@/components/Funnel/StepHeader";
+import useToast from "@/hooks/useToast";
 import { Photo } from "@/types/client";
 import { isNill, isUndefined } from "@/utils";
 import clsx from "clsx";
@@ -14,6 +15,7 @@ interface Props {
 const PhotoInputStep = ({ photo, setPhoto }: Props) => {
   const { setGlobalLoading } = useLoadingOverlay();
   const inputRef = useRef<HTMLInputElement>(null);
+  const { showToast } = useToast();
   const onClickUpload = () => {
     if (isNill(inputRef.current)) {
       return;
@@ -23,6 +25,8 @@ const PhotoInputStep = ({ photo, setPhoto }: Props) => {
   };
   const onChange = async (event: ChangeEvent<HTMLInputElement>) => {
     if (isNill(event.target) || isNill(event.target.files)) {
+      showToast("이미지를 불러오는 데 실패했어요.", "error");
+
       return;
     }
 
@@ -32,6 +36,7 @@ const PhotoInputStep = ({ photo, setPhoto }: Props) => {
     const maxSize = 5 * 1024 * 1024; // 10MB
     if (file.size > maxSize) {
       setGlobalLoading(false);
+      showToast("이미지 용량이 너무 커요.", "error");
 
       return;
     }
