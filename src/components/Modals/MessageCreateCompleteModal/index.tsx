@@ -13,7 +13,7 @@ const MessageCreateCompleteModal = ({ hideModal, onClick }: Props) => (
       <p className="text-[#9A9A9A] text-center text-[14px]">
         소중한 추억이 쌓이고 있어요!
       </p>
-      <img src={imageSrc} className="w-[158px]" />
+      <img src={imageSrc} className="w-[158px] mt-[-32px]" />
     </div>
   </OneButtonModal>
 );

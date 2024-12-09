@@ -17,7 +17,7 @@ const SelectDateStep = ({ selectDate, setSelectDate }: Props) => {
       }}
     >
       <Margin H="54px" />
-      <StepHeader text={`캡슐을 \n$오픈할 일시$를 선택해 주세요.`} />
+      <StepHeader text={`캡슐을 $오픈할 일시$를\n 선택해 주세요.`} />
       <Margin H="54px" />
       <PickerAccordion selected={selectDate} setSelected={setSelectDate} />
     </div>
