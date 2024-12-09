@@ -77,7 +77,16 @@ class Service {
       });
 
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        // 기본 메시지 포함 에러 처리
+        let errorMessage = "Network response was not ok";
+        try {
+          const errorData = await response.json();
+          errorMessage += `: ${errorData.message || "Unknown server error"}`;
+        } catch {
+          // 기본 메시지 유지
+        }
+        errorMessage += `(HTTP ${response.status})`;
+        throw new Error(errorMessage);
       }
 
       const responseData: T = await response.json();

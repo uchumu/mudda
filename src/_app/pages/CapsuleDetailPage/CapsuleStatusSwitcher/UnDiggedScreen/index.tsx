@@ -10,9 +10,14 @@ import { isUndefined } from "@/utils";
 import { useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 
-import useAlert from "@/hooks/useAlert";
-import useToast from "@/hooks/useToast";
 import CapsuleMessageCount from "./CaspuleMessageCount";
+import { getIsPastTime } from "@/utils/formatTime";
+
+import {
+  UnDigStatus,
+  UnDigModalManager,
+  unDiggedErrorHandler,
+} from "./UndigHandler";
 
 interface Props {
   capsule: UndiggedCapsule;
@@ -21,8 +26,6 @@ const UnDiggedScreen = ({ capsule }: Props) => {
   const { code } = useParams();
   const capsuleCode = useMemo(() => (isUndefined(code) ? "" : code), [code]);
   const navigate = useNavigate();
-  const { showToast } = useToast();
-  const { alert } = useAlert();
   const { setGlobalLoading } = useLoadingOverlay();
   const [isDigModalOpen, setIsDigModalOpen] = useState<boolean>(false);
   const openDigModal = () => {
@@ -34,30 +37,42 @@ const UnDiggedScreen = ({ capsule }: Props) => {
   const handleInputPassword = (newPassword: string) =>
     setInputPassword(newPassword);
   const { mutateAsync } = useDigMutate({ code: capsuleCode });
-  const digModalCallback = async () => {
-    if (capsule.goalTime > new Date().getTime()) {
-      await alert("오픈시간이 지나, 캡슐 파묻기를 실패했습니다.");
 
+  const [unDigStatus, setUnDigStatus] = useState<UnDigStatus | null>(null);
+
+  const hideUnDigModal = () => setUnDigStatus(null);
+  const unDigComplateModal = async () => {
+    hideUnDigModal();
+    navigate(`/capsule/${encodeURIComponent(capsuleCode)}`);
+  };
+
+  const undiggedOverTime = () => {
+    hideDigModal();
+    setUnDigStatus("failUndig");
+    return;
+  };
+
+  const digModalCallback = async () => {
+    const isPastTime = getIsPastTime(new Date(capsule.goalTime));
+    if (!isPastTime) {
+      undiggedOverTime();
       return;
     }
-
-    setGlobalLoading(true);
-
-    mutateAsync({ code: capsuleCode, password: inputPassword })
-      // .then(() => setTimeout(() => setIsDigCompleteModalOpen(true), 1000))
-      // .catch(() => setTimeout(() => setIsDigFailModalOpen(true), 1000))
-      .then(() => setTimeout(() => showToast("캡슐을 파묻었어요!"), 1000))
-      .catch(() =>
-        setTimeout(
-          () =>
-            showToast("파묻기에 실패했어요. 비밀번호를 확인해주세요.", "error"),
-          1000
-        )
-      )
-      .finally(() => {
-        hideDigModal();
-        setTimeout(() => setGlobalLoading(false), 1000);
+    try {
+      setGlobalLoading(true);
+      await mutateAsync({ code: capsuleCode, password: inputPassword });
+      setTimeout(() => {
+        setUnDigStatus("successUndig");
       });
+    } catch (error) {
+      const message = await unDiggedErrorHandler(error);
+      setTimeout(() => {
+        setUnDigStatus(message);
+      }, 1000);
+    } finally {
+      hideDigModal();
+      setTimeout(() => setGlobalLoading(false), 1000);
+    }
   };
 
   // const [isDigCompleteModalOpen, setIsDigCompleteModalOpen] =
@@ -104,6 +119,15 @@ const UnDiggedScreen = ({ capsule }: Props) => {
           setIsShown={setIsMapShown}
           coordinateX={capsule.map.x}
           coordinateY={capsule.map.y}
+        />
+      )}
+
+      {unDigStatus && (
+        <UnDigModalManager
+          undigStatus={unDigStatus}
+          hideModal={hideUnDigModal}
+          onClick={unDigComplateModal}
+          goalTime={capsule.goalTime}
         />
       )}
     </>
