@@ -33,7 +33,7 @@ export default function DatePicker({ dataValue, setDataValue }: Props) {
   };
 
   return (
-    <div className="flex items-center justify-center w-full h-[350px] px-[24px] py-[34px] bg-white  shadow-[0_4px_10px_rgba(0,0,0,0.25)] rounded-[16px] picker-wrap ">
+    <div className="flex items-center justify-center w-full h-[350px] px-[24px] py-[34px] picker-wrap ">
       <DayPicker
         mode="single"
         formatters={{ formatCaption: formatYearMonthKorean }}
@@ -45,12 +45,7 @@ export default function DatePicker({ dataValue, setDataValue }: Props) {
         classNames={{
           month: "text-primary-main",
           day: "text-[#202020]",
-          weekdays: "text-[#A9A9A9]",
-          selected: "bg-primary-main rounded-full text-primary-text",
-          button_next:
-            "bg-[#F2F2F2] rounded-full py-[9px] px-[10px] [&_svg]:fill-[#A5A5A5]",
-          button_previous:
-            "bg-[#F2F2F2] rounded-full py-[9px] px-[10px] [&_svg]:fill-[#A5A5A5] mr-[16px]",
+          selected: "text-primary-text",
         }}
       />
     </div>

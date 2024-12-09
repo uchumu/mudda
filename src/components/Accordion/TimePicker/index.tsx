@@ -23,10 +23,10 @@ const NumberWheel = memo(
     return (
       <div
         className="relative w-full h-40 overflow-hidden bg-white rounded-lg select-none"
-        style={{ 
-          touchAction: 'none', 
-          WebkitOverflowScrolling: 'touch', 
-          overscrollBehavior: 'none' 
+        style={{
+          touchAction: "none",
+          WebkitOverflowScrolling: "touch",
+          overscrollBehavior: "none",
         }}
         onWheel={(e) => onWheel(e, type)}
         onMouseDown={(e) => onMouseDown(e, type)}
@@ -183,7 +183,6 @@ const WheelTimePicker = ({
   }, []);
 
   const handleTouchEnd = useCallback(() => {
-    
     setIsDragging(false);
     setActiveWheel(null);
   }, []);
@@ -219,9 +218,10 @@ const WheelTimePicker = ({
   }, [handleMouseMove, handleMouseUp, handleTouchEnd]);
 
   return (
-    <div className="flex items-center w-full h-[182px] bg-white shadow-[0_4px_10px_rgba(0,0,0,0.25)] rounded-[16px] py-[30px] px-[50px]"
-    onTouchMove={e=> e.preventDefault()}
-    onTouchCancel={e=> e.preventDefault()}
+    <div
+      className="flex items-center w-full h-[182px] py-[30px] px-[50px]"
+      onTouchMove={(e) => e.preventDefault()}
+      onTouchCancel={(e) => e.preventDefault()}
     >
       <div className="flex items-center w-full gap-6">
         <div className="flex-1">

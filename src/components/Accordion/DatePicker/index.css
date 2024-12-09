@@ -7,12 +7,137 @@
   max-width: none;
 }
 
-.picker-wrap .rdp-root .rdp-months .text-primary-main {
+/* Layout & Size */
+.rdp-root,
+.rdp-months,
+.rdp-month {
   width: 100%;
+  height: 100%;
+  flex-direction: column;
 }
-.picker-wrap .rdp-root .rdp-months .text-primary-main .rdp-month_grid {
-  width: 100%;
+
+/* Navigation */
+.rdp-nav {
+  display: flex;
+  align-items: center;
 }
-.picker-wrap .rdp-root .rdp-months .text-primary-main .rdp-month_grid button {
+
+.rdp-nav button {
+  width: 27px;
+  height: 27px;
+  background-color: #f2f2f2;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.rdp-nav button svg {
+  width: 16px;
+  height: 16px;
+  fill: #a5a5a5;
+}
+
+.rdp-button_previous {
+  margin-right: 16px;
+}
+
+/* Caption */
+.rdp-month_caption {
+  margin-bottom: 24px;
+}
+
+/* Grid Layout */
+.rdp-month_grid {
   width: 100%;
+  border-spacing: 0;
+  border-collapse: separate;
+  font-size: 14px;
+}
+
+/* Weekday Headers */
+.rdp-weekday {
+  width: 11px;
+  height: 14px;
+  text-align: center;
+  color: #a9a9a9;
+}
+
+/* Date Cells */
+.rdp-week td {
+  width: 17px;
+  height: 17px;
+}
+
+.rdp-day_button {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: none;
+  background: none;
+  position: relative;
+}
+
+/* States */
+.rdp-today .rdp-day_button {
+  color: #202020;
+}
+
+/* Selected Date */
+.rdp-week td[aria-selected="true"] {
+  position: relative;
+}
+
+.rdp-week td[aria-selected="true"] button {
+  color: white;
+}
+
+.rdp-month_grid td,
+.rdp-month_grid th {
+  padding: 0 12px; /* 양쪽으로 12px씩 = 총 24px 간격 */
+}
+
+/* 기본 선택된 날짜 스타일 (중간 열들) */
+.rdp-week td[aria-selected="true"]::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 36px;
+  height: 36px;
+  background-color: var(--primary-main, #5194f9);
+  border-radius: 50%;
+  z-index: 0;
+}
+
+/* 첫 번째 열 패딩 제거 및 마커 위치 조정 */
+.rdp-month_grid td:first-child {
+  padding-left: 0;
+}
+
+.rdp-month_grid td:first-child[aria-selected="true"]::before {
+  left: calc(50% - 6px); /* 패딩만큼 왼쪽으로 당김 */
+}
+
+.rdp-month_grid td:last-child[aria-selected="true"]::before {
+  left: calc(50% + 6px); /* 패딩만큼 오른쪽으로 밀어냄 */
+}
+
+/* 마지막 열 패딩 제거 및 마커 위치 조정 */
+.rdp-month_grid td:last-child {
+  padding-right: 0;
+}
+
+/* 요일(th) 패딩 제거 */
+.rdp-month_grid th:first-child {
+  padding-left: 0;
+}
+.rdp-month_grid th:last-child {
+  padding-right: 0;
+}
+
+.rdp-month_grid {
+  border-spacing: 0 12px;
 }
