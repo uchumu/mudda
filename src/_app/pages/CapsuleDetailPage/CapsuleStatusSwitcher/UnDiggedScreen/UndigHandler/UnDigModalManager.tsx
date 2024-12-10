@@ -1,7 +1,7 @@
 import { UnDigStatus } from "./type";
 import UnDigConfirmationModal from "@/components/Modals/CapsuleUnDigModal/UnDigConfirmationModal";
 import UnDigPassWordModal from "@/components/Modals/CapsuleUnDigModal/UnDigPassWordModal";
-import { getFormattedDate } from "@/utils/formatTime";
+import { getFormattedDateTime } from "@/utils/formatTime";
 
 interface Props {
   undigStatus: UnDigStatus;
@@ -18,10 +18,15 @@ interface Props {
  * @param goalTime - 캡슐 목표 시간 (number)
  * @returns 상태에 맞는 모달 컴포넌트
  */
-export default function UnDigModalManager({ undigStatus,hideModal,onClick,goalTime }: Props) {
+export default function UnDigModalManager({
+  undigStatus,
+  hideModal,
+  onClick,
+  goalTime,
+}: Props) {
   if (!undigStatus) return null;
 
-  const formatGoalTime = getFormattedDate(new Date(goalTime))
+  const formatGoalTime = getFormattedDateTime(new Date(goalTime * 1000));
 
   const modals = {
     failUndig: (
@@ -40,10 +45,7 @@ export default function UnDigModalManager({ undigStatus,hideModal,onClick,goalTi
       />
     ),
     passwordError: (
-      <UnDigPassWordModal
-        hideModal={hideModal}
-        onClick={onClick}
-      />
+      <UnDigPassWordModal hideModal={hideModal} onClick={onClick} />
     ),
   };
 
