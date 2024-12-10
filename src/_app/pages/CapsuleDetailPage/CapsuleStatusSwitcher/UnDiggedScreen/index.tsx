@@ -17,6 +17,7 @@ import {
   UnDigStatus,
   UnDigModalManager,
   unDiggedErrorHandler,
+  UN_DIG_STATUS,
 } from "./UndigHandler";
 
 interface Props {
@@ -36,19 +37,24 @@ const UnDiggedScreen = ({ capsule }: Props) => {
   const [inputPassword, setInputPassword] = useState<string>("");
   const handleInputPassword = (newPassword: string) =>
     setInputPassword(newPassword);
-  const { mutateAsync } = useDigMutate({ code: capsuleCode });
+  const { mutateAsync, invalidateCapsuleQueries } = useDigMutate({
+    code: capsuleCode,
+  });
 
   const [unDigStatus, setUnDigStatus] = useState<UnDigStatus | null>(null);
 
-  const hideUnDigModal = () => setUnDigStatus(null);
-  const unDigComplateModal = async () => {
-    hideUnDigModal();
-    navigate(`/capsule/${encodeURIComponent(capsuleCode)}`);
+  const hideUnDigModal = () => {
+    setUnDigStatus(null);
   };
 
+  const unDigComplateModal = () => {
+    if (unDigStatus === UN_DIG_STATUS.SUCCESS) invalidateCapsuleQueries();
+    hideUnDigModal();
+  };
+  //파묻기 타임 초과시 불필요한 API 방지
   const undiggedOverTime = () => {
+    setUnDigStatus(UN_DIG_STATUS.FAILURE);
     hideDigModal();
-    setUnDigStatus("failUndig");
     return;
   };
 
@@ -62,8 +68,8 @@ const UnDiggedScreen = ({ capsule }: Props) => {
       setGlobalLoading(true);
       await mutateAsync({ code: capsuleCode, password: inputPassword });
       setTimeout(() => {
-        setUnDigStatus("successUndig");
-      });
+        setUnDigStatus(UN_DIG_STATUS.SUCCESS);
+      }, 1000);
     } catch (error) {
       const message = await unDiggedErrorHandler(error);
       setTimeout(() => {
