@@ -69,6 +69,10 @@ const drawImageToCanvas = (
   return canvas;
 };
 
+
+//TODO : 서버 정책으로 인한 avif ,webp 등 400에러 
+//code : 504 , message : 이미지 파일만 업로드 가능합니다.
+
 /**
  * Canvas를 WebP 형식으로 변환
  * @param canvas - 변환할 Canvas
@@ -91,9 +95,9 @@ const canvasToWebP = (
 
         const webpFile = new File(
           [blob],
-          fileName.replace(/\.[^/.]+$/, ".webp"),
+          fileName.replace(/\.[^/.]+$/, ".jpeg"),
           {
-            type: "image/webp",
+            type: "image/jpeg",
           }
         );
         const webpUrl = URL.createObjectURL(blob);
@@ -103,7 +107,7 @@ const canvasToWebP = (
           url: webpUrl,
         });
       },
-      "image/webp",
+      "image/jpeg",
       quality
     );
   });
@@ -131,13 +135,7 @@ const fileToObjectUrl = (file: File): Promise<string> =>
 
 /**
  * 이미지 파일을 WebP 형식으로 변환
- *
- * @description
- * 이 함수는 다음과 같은 최적화를 수행합니다:
- * 1. 이미지 크기를 최대 허용 크기에 맞게 조정
- * 2. WebP 형식으로 변환하여 파일 크기 최적화
- * 3. 지정된 품질로 압축
- *
+ * 
  * @param file - 변환할 이미지 파일
  * @param config - 변환 설정
  * @param config.maxWidth - 최대 허용 너비
