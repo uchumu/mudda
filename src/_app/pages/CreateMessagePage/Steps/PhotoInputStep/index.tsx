@@ -4,54 +4,78 @@ import StepHeader from "@/components/Funnel/StepHeader";
 import useToast from "@/hooks/useToast";
 import { Photo } from "@/types/client";
 import { isNill, isUndefined } from "@/utils";
+import { convertToWebP } from "@/utils/convertToWebP";
 import clsx from "clsx";
-import { ChangeEvent, useRef } from "react";
+import { ChangeEvent, useCallback, useRef } from "react";
 import { useWindowSize } from "react-use";
 
 interface Props {
   photo: Photo | undefined;
-  setPhoto: (newPhoto: Photo) => void;
+  setPhoto: (newPhoto: Photo | undefined) => void;
+  maxSizeMB?: number;
+  maxWidth?: number;
+  maxHeight?: number;
+  quality?: number;
 }
-const PhotoInputStep = ({ photo, setPhoto }: Props) => {
+const PhotoInputStep = ({
+  photo,
+  setPhoto,
+  maxSizeMB = 5,
+  maxWidth = 1920,
+  maxHeight = 1080,
+  quality = 0.8,
+}: Props) => {
   const { setGlobalLoading } = useLoadingOverlay();
   const inputRef = useRef<HTMLInputElement>(null);
   const { showToast } = useToast();
-  const onClickUpload = () => {
-    if (isNill(inputRef.current)) {
-      return;
-    }
 
+  const handleImageConvert = useCallback(
+    async (file: File): Promise<Photo> => {
+      return convertToWebP(file, { maxWidth, maxHeight, quality });
+    },
+    [maxWidth, maxHeight, quality]
+  );
+
+  const onClickUpload = () => {
+    if (isNill(inputRef.current)) return;
     inputRef.current.click();
   };
+
   const onChange = async (event: ChangeEvent<HTMLInputElement>) => {
-    if (isNill(event.target) || isNill(event.target.files)) {
-      showToast("이미지를 불러오는 데 실패했어요.", "error");
+    try {
+      if (isNill(event.target) || isNill(event.target.files)) {
+        showToast("이미지를 불러오는 데 실패했어요.", "error");
+        return;
+      }
+      const file = event.target.files[0];
+      setGlobalLoading(true);
 
-      return;
-    }
+      const maxSize = maxSizeMB * 1024 * 1024; // 10MB
+      if (file.size > maxSize) {
+        setGlobalLoading(false);
+        showToast("이미지 용량이 너무 커요.", "error");
+        return;
+      }
 
-    const file = event.target.files[0];
-    setGlobalLoading(true);
-
-    const maxSize = 5 * 1024 * 1024; // 10MB
-    if (file.size > maxSize) {
+      const optimizedPhoto = await handleImageConvert(file);
+      setPhoto(optimizedPhoto);
+    } catch (error) {
+      showToast("이미지 처리 중 오류가 발생했어요.", "error");
+    } finally {
       setGlobalLoading(false);
-      showToast("이미지 용량이 너무 커요.", "error");
-
-      return;
+      if (inputRef.current) {
+        inputRef.current.value = "";
+      }
     }
-
-    const fileUrl = URL.createObjectURL(file);
-
-    const img = new window.Image();
-    img.src = fileUrl;
-    img.onload = () =>
-      setPhoto({
-        file,
-        url: fileUrl,
-      });
-    setGlobalLoading(false);
   };
+
+  const handleRemoveImage = () => {
+    if (photo?.url) {
+      URL.revokeObjectURL(photo.url);
+    }
+    setPhoto(undefined);
+  };
+
 
   const { height } = useWindowSize();
 
@@ -84,12 +108,16 @@ const PhotoInputStep = ({ photo, setPhoto }: Props) => {
             <img
               src={photo.url}
               className={clsx("w-full h-full rounded-[15px] object-contain")}
+              alt="업로드된 이미지"
+              onDoubleClick={handleRemoveImage}
             />
           )}
         </div>
         <div className="h-[18px]" />
         <p className="text-[#A1A1A1] text-[14px] text-center">
-          사진은 최대 1장, 5mb까지 업로드 가능해요.
+        {isUndefined(photo)
+            ? `사진은 최대 1장, ${maxSizeMB}mb까지 업로드 가능해요.`
+            : "이미지를 더블클릭하면 제거할 수 있어요."}
         </p>
       </div>
       <input
