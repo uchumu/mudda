@@ -2,6 +2,13 @@ const parseGoalTime = (goalTime: number) => {
   // goalTime이 밀리초 단위라면 초 단위로 변환
 
   const totalTime = goalTime - Math.floor(new Date().getTime() / 1000); // 밀리초 -> 초로 변환
+  if (totalTime < 0) {
+    return {
+      days: 0,
+      hours: 0,
+      minutes: 0
+    };
+  }
 
   // 일, 시, 분 계산
   const days = Math.floor(totalTime / 86400); // 1일 = 86400초
